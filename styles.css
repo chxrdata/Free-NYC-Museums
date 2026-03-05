@@ -8,9 +8,9 @@
   --art: #FF7895;
   --culture: #5D9EFF;
   --garden: #58C193;
-  --history: #FC995A;
+  --history: #F1C338;
   --children: #C773E7;
-  --zoo: #F1C338;
+  --zoo: #FC995A;
 }
 
 body {
@@ -19,7 +19,7 @@ body {
   padding: 0;
   width: 100%;
   height: 100vh;
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
 }
 
 form, select, textarea, button, fieldset, h2 {
