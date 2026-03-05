@@ -116,7 +116,6 @@ label:has(#zoo) {
     color 0.2s ease-in-out;
 }
 
-/* zoo */
 label:has(#zoo) {
   z-index: 1;
 }
@@ -126,15 +125,6 @@ label:has(#zoo:checked) {
   color: var(--dark-black);
 }
 
-label:has(#zoo):hover {
-  background-color: color-mix(in srgb, var(--background-color) 70%, var(--zoo) 30%);
-}
-
-label:has(#zoo:checked):hover {
-  background-color: color-mix(in srgb, var(--background-color) 30%, var(--zoo) 70%);
-}
-
-/* children */
 label:has(#children) {
   z-index: 2;
 }
@@ -144,15 +134,6 @@ label:has(#children:checked) {
   color: var(--dark-black);
 }
 
-label:has(#children):hover {
-  background-color: color-mix(in srgb, var(--background-color) 70%, var(--children) 30%);
-}
-
-label:has(#children:checked):hover {
-  background-color: color-mix(in srgb, var(--background-color) 30%, var(--children) 70%);
-}
-
-/* history */
 label:has(#history) {
   z-index: 3;
 }
@@ -162,15 +143,6 @@ label:has(#history:checked) {
   color: var(--dark-black);
 }
 
-label:has(#history):hover {
-  background-color: color-mix(in srgb, var(--background-color) 70%, var(--history) 30%);
-}
-
-label:has(#history:checked):hover {
-  background-color: color-mix(in srgb, var(--background-color) 30%, var(--history) 70%);
-}
-
-/* garden */
 label:has(#garden) {
   z-index: 4;
 }
@@ -180,15 +152,6 @@ label:has(#garden:checked) {
   color: var(--dark-black);
 }
 
-label:has(#garden):hover {
-  background-color: color-mix(in srgb, var(--background-color) 70%, var(--garden) 30%);
-}
-
-label:has(#garden:checked):hover {
-  background-color: color-mix(in srgb, var(--background-color) 30%, var(--garden) 70%);
-}
-
-/* culture */
 label:has(#culture) {
   z-index: 5;
 }
@@ -198,15 +161,6 @@ label:has(#culture:checked) {
   color: var(--dark-black);
 }
 
-label:has(#culture):hover {
-  background-color: color-mix(in srgb, var(--background-color) 70%, var(--culture) 30%);
-}
-
-label:has(#culture:checked):hover {
-  background-color: color-mix(in srgb, var(--background-color) 30%, var(--culture) 70%);
-}
-
-/* art */
 label:has(#art) {
   z-index: 6;
 }
@@ -216,10 +170,55 @@ label:has(#art:checked) {
   color: var(--dark-black);
 }
 
-label:has(#art):hover {
-  background-color: color-mix(in srgb, var(--background-color) 70%, var(--art) 30%);
-}
+/* hover states on desktop only */
+@media screen and (min-width: 768px) {
 
-label:has(#art:checked):hover {
-  background-color: color-mix(in srgb, var(--background-color) 30%, var(--art) 70%);
+  label:has(#zoo):hover {
+    background-color: color-mix(in srgb, var(--background-color) 70%, var(--zoo) 30%);
+  }
+
+  label:has(#zoo:checked):hover {
+    background-color: color-mix(in srgb, var(--background-color) 30%, var(--zoo) 70%);
+  }
+
+  label:has(#children):hover {
+    background-color: color-mix(in srgb, var(--background-color) 70%, var(--children) 30%);
+  }
+
+  label:has(#children:checked):hover {
+    background-color: color-mix(in srgb, var(--background-color) 30%, var(--children) 70%);
+  }
+
+  label:has(#history):hover {
+    background-color: color-mix(in srgb, var(--background-color) 70%, var(--history) 30%);
+  }
+
+  label:has(#history:checked):hover {
+    background-color: color-mix(in srgb, var(--background-color) 30%, var(--history) 70%);
+  }
+
+  label:has(#garden):hover {
+    background-color: color-mix(in srgb, var(--background-color) 70%, var(--garden) 30%);
+  }
+
+  label:has(#garden:checked):hover {
+    background-color: color-mix(in srgb, var(--background-color) 30%, var(--garden) 70%);
+  }
+
+  label:has(#culture):hover {
+    background-color: color-mix(in srgb, var(--background-color) 70%, var(--culture) 30%);
+  }
+
+  label:has(#culture:checked):hover {
+    background-color: color-mix(in srgb, var(--background-color) 30%, var(--culture) 70%);
+  }
+
+    label:has(#art):hover {
+    background-color: color-mix(in srgb, var(--background-color) 70%, var(--art) 30%);
+  }
+
+  label:has(#art:checked):hover {
+    background-color: color-mix(in srgb, var(--background-color) 30%, var(--art) 70%);
+  }
+
 }
