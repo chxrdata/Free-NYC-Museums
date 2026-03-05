@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Test</title>
+    <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="map"></div>
+  <div id="header">
+    <div id="top-section">
+        <img src="images/FreeNYCLogo1.svg">
+        <div id="hamburger-menu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <form id="type-checkboxes">
+        <fieldset>
+            <div id="type-container">
+                <label>
+                    Art
+                    <input type="checkbox" id="art" name="art" value="Art" checked>
+                </label>
+                <label>
+                    Culture
+                    <input type="checkbox" id="culture" name="culture" value="Culture" checked>
+                </label>
+                <label>
+                    Garden
+                    <input type="checkbox" id="garden" name="garden" value="Garden" checked>
+                </label>
+                <label>
+                    History
+                    <input type="checkbox" id="history" name="history" value="History" checked>
+                </label>
+                <label>
+                    Children
+                    <input type="checkbox" id="children" name="children" value="Children" checked>
+                </label>
+                <label>
+                    Zoo
+                    <input type="checkbox" id="zoo" name="zoo" value="Zoo" checked>
+                </label>
+            </div>
+        </fieldset>   
+    </form>
+  </div>
+  <div id="legend">
+    <form id="day-checkboxes">
+        <fieldset>
+            <div>
+                <input type="checkbox" id="sunday" name="sunday" value="sun" checked>
+                <label for="sunday">sunday</label>
+                <input type="checkbox" id="monday" name="monday" value="mon" checked>
+                <label for="monday">monday</label>
+                <input type="checkbox" id="tuesday" name="tuesday" value="tue" checked>
+                <label for="tuesday">tuesday</label>
+                <input type="checkbox" id="wednesday" name="wednesday" value="wed" checked>
+                <label for="wednesday">wednesday</label>
+                <input type="checkbox" id="thursday" name="thursday" value="thu" checked>
+                <label for="thursday">thursday</label>
+                <input type="checkbox" id="friday" name="friday" value="fri" checked>
+                <label for="friday">friday</label>
+                <input type="checkbox" id="saturday" name="saturday" value="sat" checked>
+                <label for="saturday">saturday</label>
+            </div>
+        </fieldset>   
+    </form>
+    <form id="visitor-status-buttons">
+        <fieldset>
+            <div>
+                <input type="radio" id="visitor" name="visitor-status" value="visitor" checked>
+                <label for="visitor">Visitor</label><br>
+                <input type="radio" id="resident" name="visitor-status" value="resident">
+                <label for="resident">Resident</label><br>
+            </div>
+        </fieldset>   
+    </form>
+    <form id="program-checkboxes">
+        <fieldset>
+            <div>
+                <input type="checkbox" id="culturePass" name="culturePass" value="culturePass">
+                <label for="culturePass">Culture Pass</label><br>
+                <input type="checkbox" id="coolCulture" name="coolCulture" value="coolCulture">
+                <label for="coolCulture">Cool Culture</label><br>
+                <input type="checkbox" id="SNAP/EBT" name="SNAP/EBT" value="SNAP/EBT">
+                <label for="SNAP/EBT">SNAP/EBT</label><br>
+                <input type="checkbox" id="blueStar" name="blueStar" value="blueStar">
+                <label for="blueStar">Blue Star</label><br>
+            </div>
+        </fieldset>   
+    </form>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
