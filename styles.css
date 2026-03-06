@@ -22,10 +22,31 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-form, select, textarea, button, fieldset, h2 {
+form, select, button, fieldset, a {
   all: unset;
   appearance: none;
   outline: none; 
+}
+
+h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 440;
+  font-size: 1.6rem;
+  margin: 0.2rem 0 0.4rem 0;
+  line-height: 1.6rem;
+}
+
+h2 {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  font-size: 1.05rem;
+  margin: 0 0 0.4rem 0;
+}
+
+p {
+  font-size: "Inter", sans-serif;
+  font-weight: 300;
+  margin: 0;
 }
 
 #legend {
@@ -168,6 +189,114 @@ label:has(#art) {
 label:has(#art:checked) {
   background-color: var(--art);
   color: var(--dark-black);
+}
+
+/* popup */
+
+#popup {
+  position: absolute;
+  bottom: -60vh;
+  z-index: 1;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  padding: 2rem 1rem 1.5rem 1rem;
+  background-color: var(--background-color);
+  color: var(--medium-black);
+  border: 1.5px solid var(--medium-black);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  transition: bottom 0.4s ease-in-out;
+}
+
+#popup #close-btn {
+  float: right;
+  height: auto;
+  width: auto;
+}
+
+#close-btn div {
+  height: 1.5px;
+  width: 20px;
+  background-color: var(--medium-black);
+}
+
+#close-btn div:first-child {
+  transform: translate(-13px, 1.5px) rotate(45deg);
+}
+
+#close-btn div:last-child {
+  transform: rotate(-45deg);
+}
+
+#weekdays {
+  align-self: top;
+  height: auto;
+  text-align: center;
+  font-family: "IBM Plex Mono";
+  font-size: 1.1rem;
+  margin-top: 0.25rem;
+}
+
+#weekdays div {
+  height: 2rem;
+  width: 2rem;
+  border: 1.5px solid var(--medium-black);
+  border-top: none;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#weekdays #sunday-box {
+  border-top: 1.5px solid var(--medium-black);
+}
+
+#weekdays #sunday-slash, #weekdays #monday-slash, #weekdays #tuesday-slash, #weekdays #wednesday-slash, #weekdays #thursday-slash, #weekdays #friday-slash, #weekdays #saturday-slash {
+  position: absolute;
+  border: none;
+  height: 1.5px;
+  width: 3rem;
+  background-color: var(--medium-black);
+  transform: rotate(45deg);
+  visibility: hidden;
+}
+
+#popup #content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#popup .icon {
+  height: 1.2rem;
+  width: 1.2rem;
+  vertical-align: -0.2rem;
+  margin-right: 0.3rem;
+}
+
+#popup p {
+  color: var(--light-black);
+}
+
+#external-link-icon {
+  height: 1.2rem;
+  vertical-align: -0.2rem;
+  margin-right: 0.4rem;
+}
+
+#info-btn {
+  display: inline-block;
+  background-color: var(--medium-black);
+  color: var(--background-color);
+  font-family: "Space Grotesk", sans-serif;
+  width: fit-content;
+  margin-top: 0.6rem;
+  padding: 0.5rem 1rem;
 }
 
 /* hover states on desktop only */

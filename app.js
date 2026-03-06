@@ -193,4 +193,118 @@ map.on('load', async () => {
 
   })
 
+  map.on('click', 'places', (e) => {
+    const popup = document.getElementById('popup');
+    const HTMLtitle = document.getElementById('popup-title');
+    const HTMLsubtitle = document.getElementById('popup-subtitle');
+    const HTMLtext = document.getElementById('popup-text');
+    const HTMLbuttonLink = document.getElementById('info-btn-link');
+
+    const name = e.features[0].properties.name;
+    const type = e.features[0].properties.type;
+    const start = e.features[0].properties.start;
+    const end = e.features[0].properties.end;
+    const description = e.features[0].properties.description;
+    const note = e.features[0].properties.note;
+    const link = e.features[0].properties.link;
+    const admission = e.features[0].properties.suggestedAdmission;
+    const frequency = e.features[0].properties.dayWeekOrMonth;
+    const daysObj = {
+      sunday: e.features[0].properties.sun,
+      monday: e.features[0].properties.mon,
+      tuesday: e.features[0].properties.tue,
+      wednesday: e.features[0].properties.wed,
+      thursday: e.features[0].properties.thu,
+      friday: e.features[0].properties.fri,
+      saturday: e.features[0].properties.sat
+    };
+    const programsObj = {
+      culturePass: e.features[0].properties.culturePass,
+      coolCulture: e.features[0].properties.coolCulture,
+      blueStar: e.features[0].properties.blueStar,
+      snapEbt: e.features[0].properties['SNAP/EBT'],
+    }
+    const iconUrl = 'icons/' + type + '.webp';
+
+    for (let day in daysObj) {
+      let daySlashID = day + '-slash'
+      const daySlashHTML = document.getElementById(daySlashID)
+      if (daysObj[day] == 'N') {
+        daySlashHTML.style.visibility = 'visible';
+      } else {
+        daySlashHTML.style.visibility = 'hidden';
+      }
+    }
+
+    let programsList = [];
+    for (let program in programsObj) {
+      if (programsObj[program] == 'Y')
+        switch (program) {
+          case "culturePass":
+            programsList.push("Culture Pass");
+            break;
+          case "coolCulture":
+            programsList.push("Cool Culture");
+            break;
+          case "blueStar":
+            programsList.push("Blue Star");
+            break;
+          case "SNAP/EBT":
+            programsList.push("SNAP/EBT");
+            break;
+      }
+    }
+
+    if (programsList.length > 1) {
+      const lastProgram = 'and ' + programsList.at(-1);
+      programsList.splice(-1, 1, lastProgram)
+    }
+
+    let programsListStr = '';
+
+    if (programsList.length > 2) {
+      programsListStr = 'Free through ' + programsList.join(', ');
+    } else if (programsList.length > 0) {
+      programsListStr = 'Free through ' + programsList.join(' ');
+    } 
+
+    let hoursLabel = ''
+    if (frequency != 'Daily') {
+      hoursLabel = 'Free hours';
+    } else {
+      hoursLabel = 'Hours';
+    }
+
+
+    let suggestedAdmissionStr = ''
+
+    if (admission != 'N') {
+      suggestedAdmissionStr = 'Suggested admission' + admission
+    }
+
+    const startTime =  start.slice(-11, -6) + start.slice(-2, -1) + 'M';
+    const endTime = end.slice(-11, -6) + end.slice(-2, -1) + 'M';
+
+    HTMLtitle.innerHTML = name;
+    HTMLsubtitle.innerHTML = '<img class="icon" src="' + iconUrl + '">' + type + ' | ' + hoursLabel +  ': ' + startTime + '&ndash;' + endTime + '<br>' + programsListStr + suggestedAdmissionStr;
+    HTMLtext.innerHTML = description + '<br><br>' + note;
+    HTMLbuttonLink.setAttribute('href', link)
+
+    popup.style.bottom = "0px";
+
+  })
+
+  map.on('click', (e) => {
+      const features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
+      if (features.length === 0) {
+          popup.style.bottom = "-60vh";
+      }
+  });
+
+  const closeBtn = document.getElementById('close-btn');
+  closeBtn.addEventListener('click', () => {
+    popup.style.bottom = "-60vh";
+    }
+  );
+
 })
