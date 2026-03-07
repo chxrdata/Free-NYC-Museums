@@ -82,7 +82,7 @@ a {
   display: flex;
   justify-content: space-between;
   width: 100vw;
-  height: 6.5dvh;
+  height: 7dvh;
   box-sizing: border-box;
   padding: 0.6rem 1rem;
   background-color: var(--background-color);
@@ -306,7 +306,7 @@ label:has(#art:checked) {
 #menu-content {
   overflow-y: scroll;
   height: 100%;
-  padding: 0 2rem 4rem 2rem;
+  padding: 0 2rem 8rem 2rem;
   box-sizing: border-box;
 }
 
