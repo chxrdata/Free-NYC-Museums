@@ -27,10 +27,23 @@ map.on('load', async () => {
   map.addImage('History', HistoryImg.data);
   const ChildrenImg = await map.loadImage('icons/Children.webp');
   map.addImage('Children', ChildrenImg.data);
+
+  const ArtSelected = await map.loadImage('icons/ArtSelected.png');
+  map.addImage('ArtSelected', ArtSelected.data);
+  const CultureSelected = await map.loadImage('icons/CultureSelected.png');
+  map.addImage('CultureSelected', CultureSelected.data);
+  const GardenSelected = await map.loadImage('icons/GardenSelected.png');
+  map.addImage('GardenSelected', GardenSelected.data);
+  const HistorySelected = await map.loadImage('icons/HistorySelected.png');
+  map.addImage('HistorySelected', HistorySelected.data);
+  const ChildrenSelected = await map.loadImage('icons/ChildrenSelected.png');
+  map.addImage('ChildrenSelected', ChildrenSelected.data);
+  const ZooSelected = await map.loadImage('icons/ZooSelected.png');
+  map.addImage('ZooSelected', ZooSelected.data);
   
   map.addSource('museums', {
       'type': 'geojson',
-      'data': 'FreeMuseums030426.geojson',
+      'data': 'FreeMuseums030726.geojson',
     });
 
   map.addLayer({
@@ -38,7 +51,7 @@ map.on('load', async () => {
       'type': 'symbol',
       'source': 'museums',
       'layout': {
-          'icon-image': '{type}',
+          'icon-image': ['get', 'type'],
           'icon-size': [
               'interpolate',
               ['linear'],
@@ -49,6 +62,27 @@ map.on('load', async () => {
           'icon-overlap': 'always'
       },
   });
+
+  map.addLayer({ //selected icon layer
+      'id': 'selectedStop',
+      'type': 'symbol',
+      'source': 'museums',
+      'layout': {
+          'icon-image': '{type}' + 'Selected',
+          'icon-size': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              10, 0.15,
+              20, 0.3
+          ],
+          'icon-overlap': 'always'
+      },
+      'filter': ['==', ['get', 'id'], ''],
+  });
+  
+  //used in feature click listener
+  let selectedFeatureId = null;
 
   // set filter defaults
 
@@ -62,6 +96,7 @@ map.on('load', async () => {
     ['!=', ['get', 'blueStar'], 'Y'],
     ['!=', ['get', 'SNAP/EBT'], 'Y'],
   ];
+  let selectedStopFilterOut = ['literal', true];
   let filter = [];
 
   // program filter
@@ -107,7 +142,8 @@ map.on('load', async () => {
           ...typesToInclude.map(type => ['==', ['get', 'type'], type])
         ],
         residentOrVisitorFilter,
-        ...programFilter
+        ...programFilter,
+        selectedStopFilterOut
     ];
     map.setFilter('places', filter);
   }
@@ -194,17 +230,33 @@ map.on('load', async () => {
   })
 
   map.on('click', 'places', (e) => {
+
+    //show selected icon
+    selectedFeatureId = e.features[0].properties.id;
+    map.setFilter('selectedStop', ['==', ['get', 'id'], selectedFeatureId]);
+    selectedStopFilterOut = ['!=', ['get', 'id'], selectedFeatureId];
+    updateFilter();
+    const bottomPadding = window.innerHeight / 4;
+    map.flyTo({
+      center: e.features[0].geometry.coordinates,
+      zoom: 14,
+      curve: 1,
+      padding: {top: 0, bottom:bottomPadding, left: 0, right: 0}
+    });
+
+    //fetch HTML elements
     const popup = document.getElementById('popup');
     const HTMLtitle = document.getElementById('popup-title');
     const HTMLsubtitle = document.getElementById('popup-subtitle');
     const HTMLtext = document.getElementById('popup-text');
     const HTMLbuttonLink = document.getElementById('info-btn-link');
 
+    //fetch geoJSON properties
     const name = e.features[0].properties.name;
     const type = e.features[0].properties.type;
     const start = e.features[0].properties.start;
     const end = e.features[0].properties.end;
-    const description = e.features[0].properties.description;
+    let description = e.features[0].properties.description;
     const note = e.features[0].properties.note;
     const link = e.features[0].properties.link;
     const admission = e.features[0].properties.suggestedAdmission;
@@ -226,6 +278,7 @@ map.on('load', async () => {
     }
     const iconUrl = 'icons/' + type + '.webp';
 
+    //modify week calendar
     for (let day in daysObj) {
       let daySlashID = day + '-slash'
       const daySlashHTML = document.getElementById(daySlashID)
@@ -236,6 +289,7 @@ map.on('load', async () => {
       }
     }
 
+    //set up programs label
     let programsList = [];
     for (let program in programsObj) {
       if (programsObj[program] == 'Y')
@@ -268,6 +322,7 @@ map.on('load', async () => {
       programsListStr = 'Free through ' + programsList.join(' ');
     } 
 
+    //set up hours label
     let hoursLabel = ''
     if (frequency != 'Daily') {
       hoursLabel = 'Free hours';
@@ -275,16 +330,24 @@ map.on('load', async () => {
       hoursLabel = 'Hours';
     }
 
-
+    //set up suggested admission label
     let suggestedAdmissionStr = ''
 
     if (admission != 'N') {
       suggestedAdmissionStr = 'Suggested admission' + admission
     }
 
+    //set up description
+    if (description.length + note.length > 250 ) {
+      const numToSlice = 250 - note.length;
+      description = description.slice(0, numToSlice) + '..."';
+    }
+
+    //set up start and end times
     const startTime =  start.slice(-11, -6) + start.slice(-2, -1) + 'M';
     const endTime = end.slice(-11, -6) + end.slice(-2, -1) + 'M';
 
+    //set innerHTML of elements
     HTMLtitle.innerHTML = name;
     HTMLsubtitle.innerHTML = '<img class="icon" src="' + iconUrl + '">' + type + ' | ' + hoursLabel +  ': ' + startTime + '&ndash;' + endTime + '<br>' + programsListStr + suggestedAdmissionStr;
     HTMLtext.innerHTML = description + '<br><br>' + note;
@@ -294,16 +357,27 @@ map.on('load', async () => {
 
   })
 
+  function deselect() {
+    const popup = document.getElementById('popup');
+    popup.style.bottom = "-80vh";
+    selectedStopFilterOut = ['literal', true];
+    selectedFeatureId = null;
+    map.setFilter('selectedStop', ['==', ['get', 'id'], selectedFeatureId]);
+    updateFilter();
+  }
+
+  // close modal when clicking outside feature
   map.on('click', (e) => {
       const features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
       if (features.length === 0) {
-          popup.style.bottom = "-60vh";
+          deselect();
       }
   });
 
+  // or on close button
   const closeBtn = document.getElementById('close-btn');
   closeBtn.addEventListener('click', () => {
-    popup.style.bottom = "-60vh";
+      deselect();
     }
   );
 

@@ -97,13 +97,6 @@ p {
   height: 100%
 }
 
-#hamburger-menu div{
-  height: 1.5px;
-  width: 28px;
-  margin: 6px 0;
-  background-color: var(--medium-black);
-}
-
 #type-container {
   width: 100vw;
   display: flex;
@@ -195,7 +188,7 @@ label:has(#art:checked) {
 
 #popup {
   position: absolute;
-  bottom: -60vh;
+  bottom: -80vh;
   z-index: 1;
   display: flex;
   gap: 1rem;
@@ -209,27 +202,16 @@ label:has(#art:checked) {
   border: 1.5px solid var(--medium-black);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  transition: bottom 0.4s ease-in-out;
+  transition: bottom 0.5s ease-in-out;
 }
 
 #popup #close-btn {
   float: right;
-  height: auto;
-  width: auto;
 }
 
-#close-btn div {
-  height: 1.5px;
-  width: 20px;
-  background-color: var(--medium-black);
-}
-
-#close-btn div:first-child {
-  transform: translate(-13px, 1.5px) rotate(45deg);
-}
-
-#close-btn div:last-child {
-  transform: rotate(-45deg);
+#close-btn img {
+  height: 36px;
+  width: 36px;
 }
 
 #weekdays {
