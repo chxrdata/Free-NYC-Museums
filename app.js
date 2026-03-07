@@ -412,7 +412,7 @@ map.on('load', async () => {
 
   // or on close button
   const closeBtn = document.getElementById('close-btn');
-  closeBtn.addEventListener('click', deselect());
+  closeBtn.addEventListener('click', deselect);
 
   // menu stuff
 
