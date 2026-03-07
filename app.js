@@ -234,7 +234,7 @@ map.on('load', async () => {
   function openDayChecklist() {
     const dayContainer = document.getElementById('day-checkboxes-container');
     const img = document.getElementById('day-btn-img');
-    dayContainer.style['max-height'] = '80vh';
+    dayContainer.style['max-height'] = '80dvh';
     img.style.transform = 'scaleY(-1)';
   }
 
@@ -251,7 +251,7 @@ map.on('load', async () => {
   dayBtn.addEventListener('click', () => {
       deselect()
       const dayContainer = document.getElementById('day-checkboxes-container');
-      if (dayContainer.style['max-height'] != '80vh') {
+      if (dayContainer.style['max-height'] != '80dvh') {
         openDayChecklist()
       } else {
         closeDayChecklist()
@@ -394,7 +394,7 @@ map.on('load', async () => {
 
   function deselect() {
     const popup = document.getElementById('popup');
-    popup.style.bottom = "-80vh";
+    popup.style.bottom = "-80dvh";
     setTimeout(function() {
       popup.style.visibility = 'hidden';
     }, 600);

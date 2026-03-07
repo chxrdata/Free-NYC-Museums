@@ -82,7 +82,7 @@ a {
   display: flex;
   justify-content: space-between;
   width: 100vw;
-  height: 6.5vh;
+  height: 6.5dvh;
   box-sizing: border-box;
   padding: 0.6rem 1rem;
   background-color: var(--background-color);
@@ -189,7 +189,7 @@ label:has(#art:checked) {
 
 #day-checkboxes-container {
   position: absolute;
-  top: calc(10.5vh + 1rem);
+  top: calc(10.5dvh + 1rem);
   right: 1rem;
   z-index: 3;
   overflow: hidden;
@@ -260,7 +260,7 @@ label:has(#art:checked) {
   position: fixed;
   z-index: 9;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   opacity: 0;
   background-color: var(--dark-black);
   visibility: hidden;
@@ -420,7 +420,7 @@ label .radio:after {
 
 #popup {
   position: absolute;
-  bottom: -80vh;
+  bottom: -80dvh;
   visibility: hidden;
   z-index: 1;
   display: flex;
