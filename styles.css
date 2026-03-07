@@ -183,7 +183,7 @@ label:has(#art:checked) {
   position: absolute;
   top: calc(10.5vh + 1rem);
   right: 1rem;
-  z-index: 2;
+  z-index: 3;
   overflow: hidden;
   border-radius: 1.3rem;
   outline: 1.5px solid var(--medium-black);
