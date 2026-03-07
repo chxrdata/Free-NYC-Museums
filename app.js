@@ -229,7 +229,41 @@ map.on('load', async () => {
 
   })
 
+    // day checklist stuff
+
+  function openDayChecklist() {
+    const dayContainer = document.getElementById('day-checkboxes-container');
+    const img = document.getElementById('day-btn-img');
+    dayContainer.style['max-height'] = '80vh';
+    img.style.transform = 'scaleY(-1)';
+  }
+
+  function closeDayChecklist() {
+    const dayContainer = document.getElementById('day-checkboxes-container');
+    const img = document.getElementById('day-btn-img');
+    dayContainer.style['max-height'] = '2.6rem';
+    setTimeout(function() {
+      img.style.transform = 'scaleY(1)';
+    }, 200);
+  }
+
+  const dayBtn = document.getElementById('day-btn');
+  dayBtn.addEventListener('click', () => {
+      deselect()
+      const dayContainer = document.getElementById('day-checkboxes-container');
+      if (dayContainer.style['max-height'] != '80vh') {
+        openDayChecklist()
+      } else {
+        closeDayChecklist()
+      }
+      
+  });
+
+  // on feature click stuff
+
   map.on('click', 'places', (e) => {
+
+    closeDayChecklist()
 
     //show selected icon
     selectedFeatureId = e.features[0].properties.id;
@@ -353,13 +387,17 @@ map.on('load', async () => {
     HTMLtext.innerHTML = description + '<br><br>' + note;
     HTMLbuttonLink.setAttribute('href', link)
 
-    popup.style.bottom = "0px";
+    popup.style.visibility = 'visible';
+    popup.style.bottom = '0px';
 
   })
 
   function deselect() {
     const popup = document.getElementById('popup');
     popup.style.bottom = "-80vh";
+    setTimeout(function() {
+      popup.style.visibility = 'hidden';
+    }, 600);
     selectedStopFilterOut = ['literal', true];
     selectedFeatureId = null;
     map.setFilter('selectedStop', ['==', ['get', 'id'], selectedFeatureId]);
@@ -369,16 +407,39 @@ map.on('load', async () => {
   // close modal when clicking outside feature
   map.on('click', (e) => {
       const features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
-      if (features.length === 0) {
-          deselect();
-      }
+      if (features.length === 0) {deselect()}
   });
 
   // or on close button
   const closeBtn = document.getElementById('close-btn');
-  closeBtn.addEventListener('click', () => {
-      deselect();
-    }
-  );
+  closeBtn.addEventListener('click', deselect());
+
+  // menu stuff
+
+  const menuOpenBtn = document.getElementById('menu-btn');
+  const menuCloseBtn = document.getElementById('menu-close-btn');
+  const menu = document.getElementById('menu'); 
+  const menuBackdrop = document.getElementById('menu-backdrop');
+
+  function openMenu() {
+    deselect();
+    menu.style.visibility = 'visible';
+    menuBackdrop.style.visibility = 'visible';
+    menu.style.right = '0';
+    menuBackdrop.style.opacity = '0.5';
+  }
+
+  function closeMenu() {
+    menu.style.right = "-100vw";
+    menuBackdrop.style.opacity = '0';
+    setTimeout(function() {
+      menu.style.visibility = 'hidden';
+      menuBackdrop.style.visibility = 'hidden';
+    }, 600);
+  }
+
+  menuOpenBtn.addEventListener('click', openMenu);
+  menuCloseBtn.addEventListener('click', closeMenu);
+  menuBackdrop.addEventListener('click', closeMenu);
 
 })

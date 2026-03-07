@@ -50,6 +50,102 @@
         </fieldset>   
     </form>
   </div>
+  <div id="day-checkboxes-container">
+    <form id="day-checkboxes">
+        <fieldset>
+            <div>
+                <div id="day-btn">
+                    <img id="day-btn-img" src="icons/closeThick.png">
+                </div>
+                <label>S
+                    <input type="checkbox" id="sunday" name="sunday" value="sun" checked>
+                    <div id="sunday-menu-slash"></div>
+                </label>
+                <label>M
+                    <input type="checkbox" id="monday" name="monday" value="mon" checked>
+                    <div id="monday-menu-slash"></div>
+                </label>
+                <label>T
+                    <input type="checkbox" id="tuesday" name="tuesday" value="tue" checked>
+                    <div id="tuesday-menu-slash"></div>
+                </label>
+                <label>W
+                    <input type="checkbox" id="wednesday" name="wednesday" value="wed" checked>
+                    <div id="wednesday-menu-slash"></div>
+                </label>
+                <label>R
+                    <input type="checkbox" id="thursday" name="thursday" value="thu" checked>
+                    <div id="thursday-menu-slash"></div>
+                </label>
+                <label>F
+                    <input type="checkbox" id="friday" name="friday" value="fri" checked>
+                    <div id="friday-menu-slash"></div>
+                </label>
+                <label>S
+                    <input type="checkbox" id="saturday" name="saturday" value="sat" checked>
+                    <div id="saturday-menu-slash"></div>
+                </label>
+            </div>
+        </fieldset>   
+    </form>
+  </div>
+  <div id="menu-backdrop"></div>
+  <div id="menu">
+    <div id="menu-header">
+        <span id="menu-close-btn">
+            <img src="icons/close.png">
+        </span>
+        <img id="logo" src="images/FreeNYCLogo2.svg">
+        </div>
+    <div id="menu-content">
+        <h1>Settings</h1>
+        <p class="p-form">I am a:</p>
+        <form id="visitor-status-buttons">
+            <fieldset>
+                <div>
+                    <label>Visitor
+                        <input type="radio" id="visitor" name="visitor-status" value="visitor" checked>
+                        <span class="radio"></span>
+                    </label><br>
+                    <label>Resident
+                        <input type="radio" id="resident" name="visitor-status" value="resident">
+                        <span class="radio"></span>
+                    </label>
+                </div>
+            </fieldset>   
+        </form>
+        <p class="p-form">Show museums free through:</p>
+        <form id="program-checkboxes">
+            <fieldset>
+                <div>
+                    <label>Culture Pass
+                        <input type="checkbox" id="culturePass" name="culturePass" value="culturePass">
+                        <span class="checkmark"></span>
+                    </label><br>
+                    <label>Cool Culture
+                        <input type="checkbox" id="coolCulture" name="coolCulture" value="coolCulture">
+                        <span class="checkmark"></span>
+                    </label><br>
+                    <label>SNAP/EBT
+                         <input type="checkbox" id="SNAP/EBT" name="SNAP/EBT" value="SNAP/EBT">
+                        <span class="checkmark"></span>
+                    </label><br>
+                    <label>Blue Star
+                         <input type="checkbox" id="blueStar" name="blueStar" value="blueStar">
+                         <span class="checkmark"></span>
+                    </label><br>
+                </div>
+            </fieldset>
+        </form>
+        <br><br>
+        <h1>About</h1>
+        <p>I started this project for my senior graphic design thesis at the University of Florida after spending a lot of time in NYC and wishing a comprehensive resource like this existed.</p>
+        <p>Some museums have suggested admission. Please support them if you're able to!</p>
+        <p>All data is sourced by me, and I do my best to keep it up to date. If anything is incorrect, please fill out the <a href="https://forms.gle/gG8zkWR93riPMwou5" target="_blank">issue tracker here</a>. To request a feature, fill out the <a href="https://forms.gle/6QFqJkEFv36bjAv46" target="_blank">feature request here</a>. For anything else &#40;or just to talk maps&#41;, <a href="mailto:del@delcro.co">email me!</a></p>
+        <br>
+        <p id="p-small">Huge thank you to <a href="https://maplibre.org/" target="_blank">MapLibre</a> and <a href="https://openfreemap.org/" target="_blank">OpenFreeMap</a> for keeping this project free, as well as <a href="https://www.freecodecamp.org/" target="_blank">freeCodeCamp</a> for teaching me to code.</p>
+    </div>
+  </div>
   <div id="popup">
     <div id="weekdays">
         <div id="sunday-box"><div id="sunday-slash"></div><span>S</span></div>
@@ -77,52 +173,6 @@
             </a>
         </span>
     </div>
-  </div>
-  <div id="legend">
-    <form id="day-checkboxes">
-        <fieldset>
-            <div>
-                <input type="checkbox" id="sunday" name="sunday" value="sun" checked>
-                <label for="sunday">sunday</label>
-                <input type="checkbox" id="monday" name="monday" value="mon" checked>
-                <label for="monday">monday</label>
-                <input type="checkbox" id="tuesday" name="tuesday" value="tue" checked>
-                <label for="tuesday">tuesday</label>
-                <input type="checkbox" id="wednesday" name="wednesday" value="wed" checked>
-                <label for="wednesday">wednesday</label>
-                <input type="checkbox" id="thursday" name="thursday" value="thu" checked>
-                <label for="thursday">thursday</label>
-                <input type="checkbox" id="friday" name="friday" value="fri" checked>
-                <label for="friday">friday</label>
-                <input type="checkbox" id="saturday" name="saturday" value="sat" checked>
-                <label for="saturday">saturday</label>
-            </div>
-        </fieldset>   
-    </form>
-    <form id="visitor-status-buttons">
-        <fieldset>
-            <div>
-                <input type="radio" id="visitor" name="visitor-status" value="visitor" checked>
-                <label for="visitor">Visitor</label><br>
-                <input type="radio" id="resident" name="visitor-status" value="resident">
-                <label for="resident">Resident</label><br>
-            </div>
-        </fieldset>   
-    </form>
-    <form id="program-checkboxes">
-        <fieldset>
-            <div>
-                <input type="checkbox" id="culturePass" name="culturePass" value="culturePass">
-                <label for="culturePass">Culture Pass</label><br>
-                <input type="checkbox" id="coolCulture" name="coolCulture" value="coolCulture">
-                <label for="coolCulture">Cool Culture</label><br>
-                <input type="checkbox" id="SNAP/EBT" name="SNAP/EBT" value="SNAP/EBT">
-                <label for="SNAP/EBT">SNAP/EBT</label><br>
-                <input type="checkbox" id="blueStar" name="blueStar" value="blueStar">
-                <label for="blueStar">Blue Star</label><br>
-            </div>
-        </fieldset>   
-    </form>
   </div>
   <script type="module" src="app.js"></script>
 </body>
