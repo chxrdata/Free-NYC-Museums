@@ -54,16 +54,6 @@ a {
   cursor: pointer;
 }
 
-#legend {
-  visibility: hidden;
-  position: absolute;
-  z-index: 1;
-  background-color: white;
-  padding: 1rem;
-  margin: 1rem;
-  width: 10rem;
-}
-
 #map {
   position: absolute;
   z-index: 0;
@@ -187,7 +177,7 @@ label:has(#art:checked) {
 #day-checkboxes-container {
   position: absolute;
   top: calc(10.5vh + 1rem);
-  margin-left: 1rem;
+  right: 1rem;
   z-index: 2;
   overflow: hidden;
   border-radius: 1.3rem;
