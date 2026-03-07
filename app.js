@@ -271,12 +271,20 @@ map.on('load', async () => {
     selectedStopFilterOut = ['!=', ['get', 'id'], selectedFeatureId];
     updateFilter();
     const bottomPadding = window.innerHeight / 4;
-    map.flyTo({
+    if (map.getZoom() < 14) {
+      map.flyTo({
       center: e.features[0].geometry.coordinates,
       zoom: 14,
-      curve: 1,
       padding: {top: 0, bottom:bottomPadding, left: 0, right: 0}
-    });
+      });
+    } else {
+      map.flyTo({
+      center: e.features[0].geometry.coordinates,
+      curve: 1,
+      padding: {top: 0, bottom:bottomPadding, left: 0, right: 0},
+      speed: 0.6
+      });
+    }
 
     //fetch HTML elements
     const popup = document.getElementById('popup');
@@ -356,25 +364,38 @@ map.on('load', async () => {
       programsListStr = 'Free through ' + programsList.join(' ');
     } 
 
-    //set up hours label
+    //set up hours label and days caveat
     let hoursLabel = ''
+    let daysCaveat = '';
     if (frequency != 'Daily') {
       hoursLabel = 'Free hours';
+      daysCaveat = 'Weekday&#40;s&#41; shown are for free hours only. ';
     } else {
       hoursLabel = 'Hours';
     }
 
-    //set up suggested admission label
-    let suggestedAdmissionStr = ''
+    //set up suggested admission label and days caveat
+    let suggestedAdmissionStr = '';
 
     if (admission != 'N') {
       suggestedAdmissionStr = 'Suggested admission' + admission
     }
 
-    //set up description
-    if (description.length + note.length > 250 ) {
-      const numToSlice = 250 - note.length;
+    //set up body text
+
+    let bodyText = '';
+
+    if (description.length + note.length > 300 ) {
+      const numToSlice = 300 - note.length;
       description = description.slice(0, numToSlice) + '..."';
+    }
+
+    if (note.length > 0) {
+      bodyText = '<p>' + description + '</p><br><p class="p-tiny">Note: ' + daysCaveat + note + '</p>'
+    } else  if (daysCaveat.length > 0) {
+      bodyText = '<p>' + description + '</p><br><p class="p-tiny">Note: ' + daysCaveat + '</p>'
+    } else {
+      bodyText = '<p>' + description + '</p>'
     }
 
     //set up start and end times
@@ -384,7 +405,7 @@ map.on('load', async () => {
     //set innerHTML of elements
     HTMLtitle.innerHTML = name;
     HTMLsubtitle.innerHTML = '<img class="icon" src="' + iconUrl + '">' + type + ' | ' + hoursLabel +  ': ' + startTime + '&ndash;' + endTime + '<br>' + programsListStr + suggestedAdmissionStr;
-    HTMLtext.innerHTML = description + '<br><br>' + note;
+    HTMLtext.innerHTML = bodyText;
     HTMLbuttonLink.setAttribute('href', link)
 
     popup.style.visibility = 'visible';
