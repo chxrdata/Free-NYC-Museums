@@ -84,7 +84,7 @@ a {
 #top-section {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 100vw;
   height: 6.5vh;
   box-sizing: border-box;
   padding: 0.6rem 1rem;
