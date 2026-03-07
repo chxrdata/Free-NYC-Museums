@@ -82,7 +82,12 @@ a {
 }
 
 #top-section img {
-  height: 100%
+  height: 100%;
+  width: auto;
+}
+
+#menu-btn {
+  width: 25px;
 }
 
 #type-container {
