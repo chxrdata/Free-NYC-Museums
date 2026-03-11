@@ -99,7 +99,7 @@ a {
 
 #menu-btn {
   width: 25px;
-  margin-right: 0.5rem;
+  margin-right: 0.7rem;
 }
 
 #type-container {
@@ -284,6 +284,7 @@ label:has(#art:checked) {
   border-right: none;
   transition: right 0.5s ease-in-out;
   visibility: hidden;
+  opacity: 0;
 }
 
 #menu-header {
@@ -291,6 +292,10 @@ label:has(#art:checked) {
   padding: 2rem 2rem 0.5rem 2rem;
   background-color: var(--background-color);
   height: auto;
+}
+
+.desktop-btn {
+  display: none;
 }
 
 #menu-close-btn {
@@ -451,11 +456,13 @@ label .radio:after {
 }
 
 #close-btn img {
-  height: 36px;
-  width: 36px;
+  height: 30px;
+  width: 30px;
+  margin-right: 0.5rem;
+  margin-top: -0.2rem;
 }
 
-#weekdays {
+#weekdays-mobile {
   align-self: top;
   height: auto;
   text-align: center;
@@ -464,7 +471,7 @@ label .radio:after {
   margin-top: 0.25rem;
 }
 
-#weekdays div {
+#weekdays-mobile div {
   height: 2rem;
   width: 2rem;
   border: 1.5px solid var(--medium-black);
@@ -475,11 +482,11 @@ label .radio:after {
   justify-content: center;
 }
 
-#weekdays #sunday-box {
+#weekdays-mobile #sunday-box {
   border-top: 1.5px solid var(--medium-black);
 }
 
-#weekdays #sunday-slash, #weekdays #monday-slash, #weekdays #tuesday-slash, #weekdays #wednesday-slash, #weekdays #thursday-slash, #weekdays #friday-slash, #weekdays #saturday-slash {
+#weekdays-mobile #sunday-slash, #weekdays-mobile #monday-slash, #weekdays-mobile #tuesday-slash, #weekdays-mobile #wednesday-slash, #weekdays-mobile #thursday-slash, #weekdays-mobile #friday-slash, #weekdays-mobile #saturday-slash {
   position: absolute;
   border: none;
   height: 1.5px;
@@ -493,7 +500,6 @@ label .radio:after {
 #popup #content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 #popup .icon {
@@ -523,8 +529,12 @@ label .radio:after {
   padding: 0.5rem 1rem;
 }
 
-/* hover states on desktop only */
+/* desktop only behavior */
 @media screen and (min-width: 768px) {
+
+  #menu-btn {
+    margin-right: 1.5rem;
+  }
 
   label:has(#zoo):hover {
     background-color: color-mix(in srgb, var(--background-color) 70%, var(--zoo) 30%);
@@ -572,6 +582,74 @@ label .radio:after {
 
   label:has(#art:checked):hover {
     background-color: color-mix(in srgb, var(--background-color) 30%, var(--art) 70%);
+  }
+
+  #day-checkboxes-container {
+    right: 1.5rem;
+    border-radius: 1.6rem;
+  }
+
+  #day-btn-img {
+    height: 22.5px;
+  }
+
+  #day-checkboxes label, #day-btn {
+    height: 3rem;
+    width: 3rem;
+    font-size: 1.4rem;
+  }
+
+  #day-checkboxes-container {
+    max-height: 3rem;
+  }
+
+  #popup {
+    max-width: 500px;
+    margin-left: 4vw;
+    min-height: 40vh;
+  }
+
+  #menu {
+    position: absolute;
+    right: -90vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80%;
+    width: 60%;
+    border: 1.5px solid var(--medium-black);
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  #menu-header {
+    position: absolute;
+    background-color: transparent;
+  }
+
+  #menu #logo {
+    display: none;
+  }
+
+  .mobile-btn {
+    display: none;
+  }
+
+  .desktop-btn {
+    display: inline-block;
+  }
+
+  #menu-close-btn {
+    position: fixed;
+    right: 2rem;
+  }
+
+  #menu-close-btn img {
+    height: 25px;
+    width: 25px;
+  }
+
+  #menu-content {
+    padding: 2rem;
   }
 
 }

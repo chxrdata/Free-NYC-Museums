@@ -85,7 +85,6 @@ map.on('load', async () => {
   let selectedFeatureId = null;
 
   // set filter defaults
-
   let daysToInclude = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   let typesToInclude = ['Art', 'Culture', 'Garden', 'History', 'Children', 'Zoo'];
   let residentOrVisitorFilter = ['!=', ['get', 'residentOnlyGroup'], 'Y'];
@@ -151,7 +150,6 @@ map.on('load', async () => {
   updateFilter();
 
   // day filtering
-
   document.getElementById('day-checkboxes').addEventListener('change', (e) => {
     const checkedDay = e.target.value;
     const checkedState = e.target.checked;
@@ -172,7 +170,6 @@ map.on('load', async () => {
   })
 
   // type filtering
-
   document.getElementById('type-checkboxes').addEventListener('change', (e) => {
     const checkedType = e.target.value;
     const checkedState = e.target.checked;
@@ -193,7 +190,6 @@ map.on('load', async () => {
   })
 
   // visitor status filtering
-
   document.getElementById('visitor-status-buttons').addEventListener('change', () => {
     const visitorState = document.getElementById('visitor').checked;
 
@@ -208,7 +204,6 @@ map.on('load', async () => {
   })
 
   // program filtering
-
   document.getElementById('program-checkboxes').addEventListener('change', (e) => {
     const checkedProgram = e.target.value;
     const checkedState = e.target.checked;
@@ -230,7 +225,6 @@ map.on('load', async () => {
   })
 
     // day checklist stuff
-
   function openDayChecklist() {
     const dayContainer = document.getElementById('day-checkboxes-container');
     const img = document.getElementById('day-btn-img');
@@ -241,7 +235,11 @@ map.on('load', async () => {
   function closeDayChecklist() {
     const dayContainer = document.getElementById('day-checkboxes-container');
     const img = document.getElementById('day-btn-img');
-    dayContainer.style['max-height'] = '2.6rem';
+    if (window.innerWidth <= 768) {
+      dayContainer.style['max-height'] = '2.6rem';
+    } else {
+      dayContainer.style['max-height'] = '3rem';
+    }
     setTimeout(function() {
       img.style.transform = 'scaleY(1)';
     }, 200);
@@ -260,7 +258,6 @@ map.on('load', async () => {
   });
 
   // on feature click stuff
-
   map.on('click', 'places', (e) => {
 
     closeDayChecklist()
@@ -270,7 +267,10 @@ map.on('load', async () => {
     map.setFilter('selectedStop', ['==', ['get', 'id'], selectedFeatureId]);
     selectedStopFilterOut = ['!=', ['get', 'id'], selectedFeatureId];
     updateFilter();
-    const bottomPadding = window.innerHeight / 4;
+    let bottomPadding = 0
+    if (window.innerWidth <= (500 + (0.08 * window.innerWidth))) {
+      bottomPadding = window.innerHeight / 4;
+    } //this only adds bottom padding for popup if the popup would cover the selector
     if (map.getZoom() < 14) {
       map.flyTo({
       center: e.features[0].geometry.coordinates,
@@ -384,10 +384,11 @@ map.on('load', async () => {
     //set up body text
 
     let bodyText = '';
-
-    if (description.length + note.length > 300 ) {
-      const numToSlice = 300 - note.length;
-      description = description.slice(0, numToSlice) + '..."';
+    if (window.innerWidth <= 768) { //only cuts down decription on smaller screen sizes
+      if (description.length + note.length > 300 ) {
+        const numToSlice = 300 - note.length;
+        description = description.slice(0, numToSlice) + '..."';
+      }
     }
 
     if (note.length > 0) {
@@ -413,6 +414,7 @@ map.on('load', async () => {
 
   })
 
+  //deselect feature behavior
   function deselect() {
     const popup = document.getElementById('popup');
     popup.style.bottom = "-80dvh";
@@ -436,7 +438,6 @@ map.on('load', async () => {
   closeBtn.addEventListener('click', deselect);
 
   // menu stuff
-
   const menuOpenBtn = document.getElementById('menu-btn');
   const menuCloseBtn = document.getElementById('menu-close-btn');
   const menu = document.getElementById('menu'); 
@@ -444,23 +445,46 @@ map.on('load', async () => {
 
   function openMenu() {
     deselect();
+    const dayContainer = document.getElementById('day-checkboxes-container');
+    if (dayContainer.style['max-height'] == '80dvh') {
+      closeDayChecklist()
+    }
     menu.style.visibility = 'visible';
     menuBackdrop.style.visibility = 'visible';
     menu.style.right = '0';
     menuBackdrop.style.opacity = '0.5';
+    menu.style.opacity = '1';
   }
 
   function closeMenu() {
-    menu.style.right = "-100vw";
     menuBackdrop.style.opacity = '0';
     setTimeout(function() {
       menu.style.visibility = 'hidden';
       menuBackdrop.style.visibility = 'hidden';
     }, 600);
+    if (window.innerWidth <= 768) {
+      setTimeout(function() {
+        menu.style.opacity = '0';
+      }, 600);
+      menu.style.right = "-100vw";
+      } else {
+      menu.style.opacity = '0';
+    }
   }
 
   menuOpenBtn.addEventListener('click', openMenu);
   menuCloseBtn.addEventListener('click', closeMenu);
   menuBackdrop.addEventListener('click', closeMenu);
 
+  //everything that needs to change on resized window
+  window.onresize = () => {
+    const dayContainer = document.getElementById('day-checkboxes-container');
+    if (dayContainer.style['max-height'] != '80dvh') {
+      if (window.innerWidth <= 768) {
+        dayContainer.style['max-height'] = '2.6rem';
+      } else {
+        dayContainer.style['max-height'] = '3rem';
+      }
+    }
+  }
 })
