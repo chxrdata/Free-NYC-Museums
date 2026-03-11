@@ -13,6 +13,22 @@ import "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
       maxBounds: bounds
   });
 
+const favicons = [
+  'icons/favicon1.svg',
+  'icons/favicon2.svg',
+  'icons/favicon3.svg',
+  'icons/favicon4.svg',
+  'icons/favicon5.svg',
+  'icons/favicon6.svg',
+]
+
+document.addEventListener('DOMContentLoaded', () => {
+  const randomFaviconUrl = favicons[Math.floor(Math.random() * favicons.length)];
+  const favicon = document.getElementById('favicon');
+  favicon.setAttribute('href', randomFaviconUrl);
+  console.log(randomFaviconUrl);
+})
+
 map.on('load', async () => {
 
   const ArtImg = await map.loadImage('icons/Art.webp');
