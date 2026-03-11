@@ -268,7 +268,7 @@ map.on('load', async () => {
     selectedStopFilterOut = ['!=', ['get', 'id'], selectedFeatureId];
     updateFilter();
     let bottomPadding = 0
-    if (window.innerWidth <= (500 + (0.08 * window.innerWidth))) {
+    if (window.innerWidth <= (1000 + (0.08 * window.innerWidth))) {
       bottomPadding = window.innerHeight / 4;
     } //this only adds bottom padding for popup if the popup would cover the selector
     if (map.getZoom() < 14) {

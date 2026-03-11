@@ -249,6 +249,8 @@ label:has(#art:checked) {
   border-radius: 2px;
   background-color: var(--medium-black);
   transform: rotate(45deg) translate(-3rem, 0);
+  -webkit-transform: rotate(45deg) translate(-3rem, 0);
+  -ms-transform: rotate(45deg) translate(-3rem, 0);
   visibility: visible;
   transition: width 0.3s ease-in-out;
 }
@@ -306,6 +308,8 @@ label:has(#art:checked) {
   height: 30px;
   width: 30px;
   transform: rotate(-90deg);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
 }
 
 #menu #logo {
@@ -494,6 +498,8 @@ label .radio:after {
   border-radius: 2px;
   background-color: var(--medium-black);
   transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
   visibility: hidden;
 }
 
@@ -609,12 +615,19 @@ label .radio:after {
     min-height: 40vh;
   }
 
+  #info-btn:hover {
+    background-color: var(--dark-gray);
+    transition: background-color 0.1s ease-in-out;
+  }
+
   #menu {
     position: absolute;
     right: -90vw;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     height: 80%;
     width: 60%;
     border: 1.5px solid var(--medium-black);
