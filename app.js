@@ -437,6 +437,11 @@ map.on('load', async () => {
     setTimeout(function() {
       popup.style.visibility = 'hidden';
     }, 600);
+    for (let day in daysObj) { //make sure all slashes are removed
+      let daySlashID = day + '-slash'
+      const daySlashHTML = document.getElementById(daySlashID)
+      daySlashHTML.style.visibility = 'hidden';
+    }
     selectedStopFilterOut = ['literal', true];
     selectedFeatureId = null;
     map.setFilter('selectedStop', ['==', ['get', 'id'], selectedFeatureId]);
