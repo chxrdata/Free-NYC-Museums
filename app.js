@@ -319,6 +319,7 @@ map.on('load', async () => {
     const link = e.features[0].properties.link;
     const admission = e.features[0].properties.suggestedAdmission;
     const frequency = e.features[0].properties.dayWeekOrMonth;
+    const weekdaysBox = document.getElementById('weekdays-mobile')
     const daysObj = {
       sunday: e.features[0].properties.sun,
       monday: e.features[0].properties.mon,
@@ -337,6 +338,7 @@ map.on('load', async () => {
     const iconUrl = 'icons/' + type + '.webp';
 
     //modify week calendar
+    weekdaysBox.style.visbility = 'visible';
     for (let day in daysObj) {
       let daySlashID = day + '-slash'
       const daySlashHTML = document.getElementById(daySlashID)
@@ -437,11 +439,8 @@ map.on('load', async () => {
     setTimeout(function() {
       popup.style.visibility = 'hidden';
     }, 600);
-    for (let day in daysObj) { //make sure all slashes are removed
-      let daySlashID = day + '-slash'
-      const daySlashHTML = document.getElementById(daySlashID)
-      daySlashHTML.style.visibility = 'hidden';
-    }
+    const weekdaysBox = document.getElementById('weekdays-mobile')
+    weekdaysBox.style.visbility = 'hidden';
     selectedStopFilterOut = ['literal', true];
     selectedFeatureId = null;
     map.setFilter('selectedStop', ['==', ['get', 'id'], selectedFeatureId]);
