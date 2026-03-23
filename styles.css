@@ -535,7 +535,8 @@ label .radio:after {
 @media screen and (min-width: 768px) {
 
   #menu-btn {
-    margin-right: 1.5rem;
+    margin-right: 0.7rem;
+    width: 35px;
   }
 
   label:has(#zoo):hover {
