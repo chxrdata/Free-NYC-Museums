@@ -98,8 +98,12 @@ a {
 }
 
 #menu-btn {
-  width: 25px;
-  margin-right: 0.7rem;
+  width: 30px;
+  margin-right: 0.2rem;
+}
+
+#menu-btn img {
+  width: 100%;
 }
 
 #type-container {
