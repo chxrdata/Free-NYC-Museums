@@ -5021,7 +5021,7 @@
     "residentOnlyGroup":"N",
     "culturePass":"Y",
     "coolCulture":"Y",
-    "blueStar":"N",
+    "blueStar":"Y",
     "SNAP/EBT":"N"
     }
   },
@@ -6207,6 +6207,70 @@
     "coolCulture":"A",
     "blueStar":"A",
     "SNAP/EBT":"A"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -73.99289317,40.72235339 ]
+    },
+    "properties": {
+    "name":"New Museum",
+    "id":195,
+    "sun":"N",
+    "mon":"N",
+    "tue":"N",
+    "wed":"N",
+    "thu":"Y",
+    "fri":"N",
+    "sat":"N",
+    "start":"7:00:00 PM",
+    "end":"9:00:00 PM",
+    "type":"Art",
+    "description":"\"The New Museum believes that contemporary art is a vital social force that advances questioning, learning, and working towards a better society.\" (via newmuseum.org) ",
+    "note":"Tickets must be reserved online in advance. A limited number of additional PWYW tickets are offered onsite, but availability is not guaranteed.",
+    "link":"https://www.newmuseum.org/visit/",
+    "suggestedAdmission":"N",
+    "dayWeekOrMonth":"Weekly",
+    "visitorOnly":"N",
+    "residentOnlyGroup":"N",
+    "culturePass":"X",
+    "coolCulture":"X",
+    "blueStar":"O",
+    "SNAP/EBT":"X"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -73.99289317,40.72235339 ]
+    },
+    "properties": {
+    "name":"New Museum",
+    "id":196,
+    "sun":"Y",
+    "mon":"N",
+    "tue":"Y",
+    "wed":"Y",
+    "thu":"Y",
+    "fri":"Y",
+    "sat":"Y",
+    "start":"11:00:00 AM",
+    "end":"6:00:00 PM",
+    "type":"Art",
+    "description":"\"The New Museum believes that contemporary art is a vital social force that advances questioning, learning, and working towards a better society.\" (via newmuseum.org) ",
+    "note":"Open until 9pm Thursdays.",
+    "link":"https://www.newmuseum.org/visit/free-admission/",
+    "suggestedAdmission":"N",
+    "dayWeekOrMonth":"Weekly",
+    "visitorOnly":"N",
+    "residentOnlyGroup":"N",
+    "culturePass":"Y",
+    "coolCulture":"Y",
+    "blueStar":"N",
+    "SNAP/EBT":"Y"
     }
   },
   {

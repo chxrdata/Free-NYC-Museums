@@ -1,17 +1,17 @@
 import "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
 
-  const bounds = [
-      [-74.39579758538115, 40.50230575487687], // Southwest coordinates
-      [-73.64742517060498, 40.99226057434001] // Northeast coordinates
-  ];
+const bounds = [
+  [-74.39579758538115, 40.50230575487687], // Southwest coordinates
+  [-73.64742517060498, 40.99226057434001] // Northeast coordinates
+];
 
-  const map = new maplibregl.Map({
-      container: 'map',
-      style: 'https://tiles.openfreemap.org/styles/positron',
-      center: [-73.94356413203386, 40.75391772516758],
-      zoom: 12,
-      maxBounds: bounds
-  });
+const map = new maplibregl.Map({
+  container: 'map',
+  style: 'https://tiles.openfreemap.org/styles/positron',
+  center: [-73.94356413203386, 40.75391772516758],
+  zoom: 12,
+  maxBounds: bounds
+});
 
 const favicons = [
   'icons/favicon1.svg',
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 map.on('load', async () => {
 
   const ArtImg = await map.loadImage('icons/Art.webp');
-  map.addImage('Art', ArtImg.data);  
+  map.addImage('Art', ArtImg.data);
   const ZooImg = await map.loadImage('icons/Zoo.webp');
   map.addImage('Zoo', ZooImg.data);
   const cultureImg = await map.loadImage('icons/Culture.webp');
@@ -56,47 +56,47 @@ map.on('load', async () => {
   map.addImage('ChildrenSelected', ChildrenSelected.data);
   const ZooSelected = await map.loadImage('icons/ZooSelected.png');
   map.addImage('ZooSelected', ZooSelected.data);
-  
+
   map.addSource('museums', {
-      'type': 'geojson',
-      'data': 'FreeMuseums030726.geojson',
-    });
+    'type': 'geojson',
+    'data': 'FreeMuseums040226.geojson',
+  });
 
   map.addLayer({
-      'id': 'places',
-      'type': 'symbol',
-      'source': 'museums',
-      'layout': {
-          'icon-image': ['get', 'type'],
-          'icon-size': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              10, 0.4,
-              20, 1
-          ],
-          'icon-overlap': 'always'
-      },
+    'id': 'places',
+    'type': 'symbol',
+    'source': 'museums',
+    'layout': {
+      'icon-image': ['get', 'type'],
+      'icon-size': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        10, 0.4,
+        20, 1
+      ],
+      'icon-overlap': 'always'
+    },
   });
 
   map.addLayer({ //selected icon layer
-      'id': 'selectedStop',
-      'type': 'symbol',
-      'source': 'museums',
-      'layout': {
-          'icon-image': '{type}' + 'Selected',
-          'icon-size': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              10, 0.15,
-              20, 0.3
-          ],
-          'icon-overlap': 'always'
-      },
-      'filter': ['==', ['get', 'id'], ''],
+    'id': 'selectedStop',
+    'type': 'symbol',
+    'source': 'museums',
+    'layout': {
+      'icon-image': '{type}' + 'Selected',
+      'icon-size': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        10, 0.15,
+        20, 0.3
+      ],
+      'icon-overlap': 'always'
+    },
+    'filter': ['==', ['get', 'id'], ''],
   });
-  
+
   //used in feature click listener
   let selectedFeatureId = null;
 
@@ -126,9 +126,9 @@ map.on('load', async () => {
     if (programsToInclude.length > 0) {
       programFilter = [
         ['any',
-        ...programsToInclude.map(program => ['==', ['get', program], 'Y']),
-        ...programsToInclude.map(program => ['==', ['get', program], 'A']),
-        ...programsToInclude.map(program => ['==', ['get', program], 'O'])
+          ...programsToInclude.map(program => ['==', ['get', program], 'Y']),
+          ...programsToInclude.map(program => ['==', ['get', program], 'A']),
+          ...programsToInclude.map(program => ['==', ['get', program], 'O'])
         ],
         ['all',
           ...programsToInclude.map(program => ['!=', ['get', program], 'X'])
@@ -142,23 +142,23 @@ map.on('load', async () => {
         ['!=', ['get', 'SNAP/EBT'], 'Y'],
       ]
     }
-}
+  }
 
   // main filter
   function updateFilter() {
     filter = [
       'all',
-        [
-          'any',
-          ...daysToInclude.map(day => ['==', ['get', day], 'Y'])
-        ],
-        [
-          'any',
-          ...typesToInclude.map(type => ['==', ['get', 'type'], type])
-        ],
-        residentOrVisitorFilter,
-        ...programFilter,
-        selectedStopFilterOut
+      [
+        'any',
+        ...daysToInclude.map(day => ['==', ['get', day], 'Y'])
+      ],
+      [
+        'any',
+        ...typesToInclude.map(type => ['==', ['get', 'type'], type])
+      ],
+      residentOrVisitorFilter,
+      ...programFilter,
+      selectedStopFilterOut
     ];
     map.setFilter('places', filter);
   }
@@ -186,23 +186,30 @@ map.on('load', async () => {
   })
 
   // type filtering
+
+  const typesValueArr = ['Art', 'Culture', 'Garden', 'History', 'Children', 'Zoo'];
+  let typesIsolatingState = false
+
   document.getElementById('type-checkboxes').addEventListener('change', (e) => {
-    const checkedType = e.target.value;
+    const checkedValue = e.target.value;
     const checkedState = e.target.checked;
 
-    if (checkedState) {
-      if (!typesToInclude.includes(checkedType)) {
-        typesToInclude.push(checkedType)
+    if ((!checkedState && !typesIsolatingState) || (checkedState && typesIsolatingState)) {
+      for (const value of typesValueArr) {
+        document.getElementById(value.toLowerCase()).checked = false;
       }
-    } else {
-      const index = typesToInclude.indexOf(checkedType);
-      if (index > -1) {
-        typesToInclude.splice(index, 1);
+      document.getElementById(checkedValue.toLowerCase()).checked = true;
+      typesToInclude = [checkedValue];
+      typesIsolatingState = true;
+    } else if (!checkedState && typesIsolatingState) {
+      for (const value of typesValueArr) {
+        document.getElementById(value.toLowerCase()).checked = true;
       }
+      typesToInclude = ['Art', 'Culture', 'Garden', 'History', 'Children', 'Zoo'];
+      typesIsolatingState = false;
     }
 
     updateFilter();
-
   })
 
   // visitor status filtering
@@ -240,7 +247,7 @@ map.on('load', async () => {
 
   })
 
-    // day checklist stuff
+  // day checklist stuff
   function openDayChecklist() {
     const dayContainer = document.getElementById('day-checkboxes-container');
     const img = document.getElementById('day-btn-img');
@@ -256,21 +263,21 @@ map.on('load', async () => {
     } else {
       dayContainer.style['max-height'] = '3rem';
     }
-    setTimeout(function() {
+    setTimeout(function () {
       img.style.transform = 'scaleY(1)';
     }, 200);
   }
 
   const dayBtn = document.getElementById('day-btn');
   dayBtn.addEventListener('click', () => {
-      deselect()
-      const dayContainer = document.getElementById('day-checkboxes-container');
-      if (dayContainer.style['max-height'] != '80dvh') {
-        openDayChecklist()
-      } else {
-        closeDayChecklist()
-      }
-      
+    deselect()
+    const dayContainer = document.getElementById('day-checkboxes-container');
+    if (dayContainer.style['max-height'] != '80dvh') {
+      openDayChecklist()
+    } else {
+      closeDayChecklist()
+    }
+
   });
 
   // on feature click stuff
@@ -289,16 +296,16 @@ map.on('load', async () => {
     } //this only adds bottom padding for popup if the popup would cover the selector
     if (map.getZoom() < 14) {
       map.flyTo({
-      center: e.features[0].geometry.coordinates,
-      zoom: 14,
-      padding: {top: 0, bottom:bottomPadding, left: 0, right: 0}
+        center: e.features[0].geometry.coordinates,
+        zoom: 14,
+        padding: { top: 0, bottom: bottomPadding, left: 0, right: 0 }
       });
     } else {
       map.flyTo({
-      center: e.features[0].geometry.coordinates,
-      curve: 1,
-      padding: {top: 0, bottom:bottomPadding, left: 0, right: 0},
-      speed: 0.6
+        center: e.features[0].geometry.coordinates,
+        curve: 1,
+        padding: { top: 0, bottom: bottomPadding, left: 0, right: 0 },
+        speed: 0.6
       });
     }
 
@@ -366,7 +373,7 @@ map.on('load', async () => {
           case "SNAP/EBT":
             programsList.push("SNAP/EBT");
             break;
-      }
+        }
     }
 
     if (programsList.length > 1) {
@@ -380,7 +387,7 @@ map.on('load', async () => {
       programsListStr = 'Free through ' + programsList.join(', ');
     } else if (programsList.length > 0) {
       programsListStr = 'Free through ' + programsList.join(' ');
-    } 
+    }
 
     //set up hours label and days caveat
     let hoursLabel = ''
@@ -403,7 +410,7 @@ map.on('load', async () => {
 
     let bodyText = '';
     if (window.innerWidth <= 768) { //only cuts down decription on smaller screen sizes
-      if (description.length + note.length > 300 ) {
+      if (description.length + note.length > 300) {
         const numToSlice = 300 - note.length;
         description = description.slice(0, numToSlice) + '..."';
       }
@@ -411,19 +418,19 @@ map.on('load', async () => {
 
     if (note.length > 0) {
       bodyText = '<p>' + description + '</p><br><p class="p-tiny">Note: ' + daysCaveat + note + '</p>'
-    } else  if (daysCaveat.length > 0) {
+    } else if (daysCaveat.length > 0) {
       bodyText = '<p>' + description + '</p><br><p class="p-tiny">Note: ' + daysCaveat + '</p>'
     } else {
       bodyText = '<p>' + description + '</p>'
     }
 
     //set up start and end times
-    const startTime =  start.slice(-11, -6) + start.slice(-2, -1) + 'M';
+    const startTime = start.slice(-11, -6) + start.slice(-2, -1) + 'M';
     const endTime = end.slice(-11, -6) + end.slice(-2, -1) + 'M';
 
     //set innerHTML of elements
     HTMLtitle.innerHTML = name;
-    HTMLsubtitle.innerHTML = '<img class="icon" src="' + iconUrl + '">' + type + ' | ' + hoursLabel +  ': ' + startTime + '&ndash;' + endTime + '<br>' + programsListStr + suggestedAdmissionStr;
+    HTMLsubtitle.innerHTML = '<img class="icon" src="' + iconUrl + '">' + type + ' | ' + hoursLabel + ': ' + startTime + '&ndash;' + endTime + '<br>' + programsListStr + suggestedAdmissionStr;
     HTMLtext.innerHTML = bodyText;
     HTMLbuttonLink.setAttribute('href', link)
 
@@ -436,7 +443,7 @@ map.on('load', async () => {
   function deselect() {
     const popup = document.getElementById('popup');
     popup.style.bottom = "-80dvh";
-    setTimeout(function() {
+    setTimeout(function () {
       popup.style.visibility = 'hidden';
     }, 600);
     const weekdaysBox = document.getElementById('weekdays-mobile')
@@ -449,8 +456,8 @@ map.on('load', async () => {
 
   // close modal when clicking outside feature
   map.on('click', (e) => {
-      const features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
-      if (features.length === 0) {deselect()}
+    const features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
+    if (features.length === 0) { deselect() }
   });
 
   // or on close button
@@ -460,7 +467,7 @@ map.on('load', async () => {
   // menu stuff
   const menuOpenBtn = document.getElementById('menu-btn');
   const menuCloseBtn = document.getElementById('menu-close-btn');
-  const menu = document.getElementById('menu'); 
+  const menu = document.getElementById('menu');
   const menuBackdrop = document.getElementById('menu-backdrop');
 
   function openMenu() {
@@ -478,16 +485,16 @@ map.on('load', async () => {
 
   function closeMenu() {
     menuBackdrop.style.opacity = '0';
-    setTimeout(function() {
+    setTimeout(function () {
       menu.style.visibility = 'hidden';
       menuBackdrop.style.visibility = 'hidden';
     }, 600);
     if (window.innerWidth <= 768) {
-      setTimeout(function() {
+      setTimeout(function () {
         menu.style.opacity = '0';
       }, 600);
       menu.style.right = "-100vw";
-      } else {
+    } else {
       menu.style.opacity = '0';
     }
   }
