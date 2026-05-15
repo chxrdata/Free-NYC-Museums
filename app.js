@@ -59,7 +59,7 @@ map.on('load', async () => {
 
   map.addSource('museums', {
     'type': 'geojson',
-    'data': 'FreeMuseums040226.geojson',
+    'data': 'FreeMuseums051526.geojson',
   });
 
   map.addLayer({

@@ -2235,10 +2235,10 @@
     "dayWeekOrMonth":"Weekly",
     "visitorOnly":"Y",
     "residentOnlyGroup":"N",
-    "culturePass":"A",
-    "coolCulture":"A",
-    "blueStar":"A",
-    "SNAP/EBT":"A"
+    "culturePass":"X",
+    "coolCulture":"X",
+    "blueStar":"X",
+    "SNAP/EBT":"O"
     }
   },
   {
