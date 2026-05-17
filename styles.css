@@ -29,10 +29,19 @@ body {
   overflow: hidden;
 }
 
-form, select, button, fieldset, a {
+form,
+select,
+button,
+fieldset,
+a,
+ul {
   all: unset;
   appearance: none;
-  outline: none; 
+  outline: none;
+}
+
+ul {
+  list-style: none;
 }
 
 h1 {
@@ -229,7 +238,8 @@ label:has(#art:checked) {
   width: 0;
 }
 
-#day-checkboxes label, #day-btn {
+#day-checkboxes label,
+#day-btn {
   height: 2.6rem;
   width: 2.6rem;
   border-top: 1.5px solid var(--medium-black);
@@ -245,7 +255,7 @@ label:has(#art:checked) {
   border-top: none;
 }
 
-#day-checkboxes input ~ div {
+#day-checkboxes input~div {
   position: absolute;
   border: none;
   height: 1.5px;
@@ -257,7 +267,7 @@ label:has(#art:checked) {
   transition: width 0.3s ease-in-out;
 }
 
-#day-checkboxes input:checked ~ div {
+#day-checkboxes input:checked~div {
   visibility: hidden;
   width: 0;
 }
@@ -366,7 +376,7 @@ label:has(#art:checked) {
   outline: 1.5px solid var(--light-black);
 }
 
-label input:checked ~ .checkmark {
+label input:checked~.checkmark {
   background-color: var(--light-black);
 }
 
@@ -376,7 +386,7 @@ label input:checked ~ .checkmark {
   display: none;
 }
 
-label input:checked ~ .checkmark:after {
+label input:checked~.checkmark:after {
   display: block;
 }
 
@@ -400,7 +410,7 @@ label .checkmark:after {
   outline: 1.5px solid var(--light-black);
 }
 
-label input:checked ~ .radio {
+label input:checked~.radio {
   background-color: var(--light-black);
 }
 
@@ -410,7 +420,7 @@ label input:checked ~ .radio {
   display: none;
 }
 
-label input:checked ~ .radio:after {
+label input:checked~.radio:after {
   display: block;
 }
 
@@ -430,13 +440,14 @@ label .radio:after {
 .p-tiny {
   font-size: 0.8rem;
 }
+
 /* popup */
 
 #popup {
   position: absolute;
   bottom: -80dvh;
   visibility: hidden;
-  z-index: 1;
+  z-index: 3;
   display: flex;
   gap: 1rem;
   justify-content: space-between;
@@ -488,7 +499,13 @@ label .radio:after {
   border-top: 1.5px solid var(--medium-black);
 }
 
-#weekdays-mobile #sunday-slash, #weekdays-mobile #monday-slash, #weekdays-mobile #tuesday-slash, #weekdays-mobile #wednesday-slash, #weekdays-mobile #thursday-slash, #weekdays-mobile #friday-slash, #weekdays-mobile #saturday-slash {
+#weekdays-mobile #sunday-slash,
+#weekdays-mobile #monday-slash,
+#weekdays-mobile #tuesday-slash,
+#weekdays-mobile #wednesday-slash,
+#weekdays-mobile #thursday-slash,
+#weekdays-mobile #friday-slash,
+#weekdays-mobile #saturday-slash {
   position: absolute;
   border: none;
   height: 1.5px;
@@ -529,6 +546,82 @@ label .radio:after {
   width: fit-content;
   margin-top: 0.6rem;
   padding: 0.5rem 1rem;
+}
+
+
+/* search bar */
+
+#search-bar {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+  width: 100dvw;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+}
+
+#searchedFeature {
+  width: 80vw;
+  border: 1.5px solid var(--dark-black);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  margin-left: 50%;
+  transform: translate(-50%);
+  background-color: var(--background-color);
+}
+
+#searchedFeature:focus {
+  outline: none;
+}
+
+#searchedFeature::placeholder {
+  color: var(--dark-black);
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+}
+
+.autocomplete-item {
+  position: relative;
+  z-index: 1;
+  width: 80vw;
+  font-size: 0.9rem;
+  border: 1.5px solid black;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  margin: -1.5px 0 -1.5px 50%;
+  transform: translate(-50%);
+  background-color: var(--background-color);
+}
+
+.autocomplete-item:first-child {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.autocomplete-item:hover {
+  cursor: pointer;
+}
+
+.autocomplete-art:hover {
+  background-color: var(--art);
+}
+
+.autocomplete-culture:hover {
+  background-color: var(--culture);
+}
+
+.autocomplete-garden:hover {
+  background-color: var(--garden);
+}
+
+.autocomplete-history:hover {
+  background-color: var(--history);
+}
+
+.autocomplete-children:hover {
+  background-color: var(--children);
 }
 
 /* desktop only behavior */
@@ -579,7 +672,7 @@ label .radio:after {
     background-color: color-mix(in srgb, var(--background-color) 30%, var(--culture) 70%);
   }
 
-    label:has(#art):hover {
+  label:has(#art):hover {
     background-color: color-mix(in srgb, var(--background-color) 70%, var(--art) 30%);
   }
 
@@ -596,7 +689,8 @@ label .radio:after {
     height: 22.5px;
   }
 
-  #day-checkboxes label, #day-btn {
+  #day-checkboxes label,
+  #day-btn {
     height: 3rem;
     width: 3rem;
     font-size: 1.4rem;
@@ -608,7 +702,8 @@ label .radio:after {
 
   #popup {
     max-width: 500px;
-    margin-left: 4vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
     min-height: 40vh;
   }
 
@@ -658,6 +753,11 @@ label .radio:after {
 
   #menu-content {
     padding: 2rem;
+  }
+
+  #searchedFeature,
+  .autocomplete-item {
+    max-width: 500px;
   }
 
 }

@@ -1,3 +1,5 @@
+// SETUP
+
 import "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
 
 const bounds = [
@@ -31,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 map.on('load', async () => {
 
+  // LOAD ICONS
+
   const ArtImg = await map.loadImage('icons/Art.webp');
   map.addImage('Art', ArtImg.data);
   const ZooImg = await map.loadImage('icons/Zoo.webp');
@@ -56,6 +60,8 @@ map.on('load', async () => {
   map.addImage('ChildrenSelected', ChildrenSelected.data);
   const ZooSelected = await map.loadImage('icons/ZooSelected.png');
   map.addImage('ZooSelected', ZooSelected.data);
+
+  // RENDER MAPS
 
   map.addSource('museums', {
     'type': 'geojson',
@@ -100,10 +106,15 @@ map.on('load', async () => {
   //used in feature click listener
   let selectedFeatureId = null;
 
+  // FILTERS
+  // Note: filters used with MapLibre have standard names.
+  // Filters used on geoJSON for search feature end in 'search'.
+
   // set filter defaults
   let daysToInclude = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   let typesToInclude = ['Art', 'Culture', 'Garden', 'History', 'Children', 'Zoo'];
   let residentOrVisitorFilter = ['!=', ['get', 'residentOnlyGroup'], 'Y'];
+  let residentOrVisitorFilterSearch = p => p.residentOnlyGroup !== 'Y';
   let programsToInclude = [];
   let programFilter = [
     ['!=', ['get', 'culturePass'], 'Y'],
@@ -111,8 +122,14 @@ map.on('load', async () => {
     ['!=', ['get', 'blueStar'], 'Y'],
     ['!=', ['get', 'SNAP/EBT'], 'Y'],
   ];
+  let programFilterSearch = p =>
+    p.culturePass !== 'Y' &&
+    p.coolCulture !== 'Y' &&
+    p.blueStar !== 'Y' &&
+    p['SNAP/EBT'] !== 'Y';
   let selectedStopFilterOut = ['literal', true];
   let filter = [];
+  let searchFilter = [];
 
   // program filter
 
@@ -122,7 +139,7 @@ map.on('load', async () => {
   // O: Include if its program is checked (on non-program row)
   // Y: Include if its program is checked (on program-specific row)
   // N: Exclude if its program is not checked (on program-specific row) (serves same function as O really, just used as marker)
-  function updateProgramFilter() {
+  function updateProgramFilter() { //map filter
     if (programsToInclude.length > 0) {
       programFilter = [
         ['any',
@@ -144,7 +161,26 @@ map.on('load', async () => {
     }
   }
 
+  function updateProgramFilterSearch() { //search filter
+    if (programsToInclude.length > 0) {
+      programFilterSearch = p => {
+        const orArr = programsToInclude.some(program => p[program] == 'Y' || p[program] == 'A' || p[program] == 'O');
+        const notArr = programsToInclude.every(program => p[program] !== 'X');
+        return orArr && notArr;
+      }
+    } else {
+      programFilterSearch = p =>
+        p.culturePass !== 'Y' &&
+        p.coolCulture !== 'Y' &&
+        p.blueStar !== 'Y' &&
+        p['SNAP/EBT'] !== 'Y';
+    };
+  }
+
   // main filter
+
+  let filteredFeatures = undefined; //map filter
+
   function updateFilter() {
     filter = [
       'all',
@@ -163,7 +199,25 @@ map.on('load', async () => {
     map.setFilter('places', filter);
   }
 
+  let filteredFeaturesSearch = undefined; //search filter
+
+  const geoJSON = await fetch('./FreeMuseums051526.geojson').then(r => r.json());
+
+  function updateSearchFilter() {
+    filteredFeaturesSearch = geoJSON.features.filter(f => {
+      const p = f.properties;
+      return (
+        daysToInclude.some(day => p[day] === 'Y') &&
+        typesToInclude.includes(p.type) &&
+        residentOrVisitorFilterSearch(p) &&
+        programFilterSearch(p)
+      );
+    })
+
+  }
+
   updateFilter();
+  updateSearchFilter();
 
   // day filtering
   document.getElementById('day-checkboxes').addEventListener('change', (e) => {
@@ -182,6 +236,7 @@ map.on('load', async () => {
     }
 
     updateFilter();
+    updateSearchFilter();
 
   })
 
@@ -191,6 +246,9 @@ map.on('load', async () => {
   let typesIsolatingState = false
 
   document.getElementById('type-checkboxes').addEventListener('change', (e) => {
+    closeSearchItems();
+    deselect();
+
     const checkedValue = e.target.value;
     const checkedState = e.target.checked;
 
@@ -210,6 +268,7 @@ map.on('load', async () => {
     }
 
     updateFilter();
+    updateSearchFilter();
   })
 
   // visitor status filtering
@@ -218,11 +277,14 @@ map.on('load', async () => {
 
     if (visitorState) {
       residentOrVisitorFilter = ['!=', ['get', 'residentOnlyGroup'], 'Y'];
+      residentOrVisitorFilterSearch = p => p.residentOnlyGroup !== 'Y';
     } else {
       residentOrVisitorFilter = ['!=', ['get', 'visitorOnly'], 'Y'];
+      residentOrVisitorFilterSearch = p => p.visitorOnly !== 'Y';
     }
 
     updateFilter();
+    updateSearchFilter();
 
   })
 
@@ -244,11 +306,14 @@ map.on('load', async () => {
 
     updateProgramFilter()
     updateFilter();
+    updateProgramFilterSearch();
+    updateSearchFilter();
 
   })
 
-  // day checklist stuff
+  // day checklist open and close behavior
   function openDayChecklist() {
+    closeSearchItems();
     const dayContainer = document.getElementById('day-checkboxes-container');
     const img = document.getElementById('day-btn-img');
     dayContainer.style['max-height'] = '80dvh';
@@ -280,13 +345,25 @@ map.on('load', async () => {
 
   });
 
-  // on feature click stuff
-  map.on('click', 'places', (e) => {
+  // Close search up here
+  const searchInput = document.getElementById('searchedFeature');
+  const autocompleteList = document.getElementById('autocomplete-list');
 
-    closeDayChecklist()
+  function closeSearchItems() {
+    searchInput.value = '';
+    autocompleteList.replaceChildren();
+    searchInput.style.borderTopRightRadius = '20px';
+    searchInput.style.borderTopLeftRadius = '20px';
+  }
+
+  // SELECT FEATURE BEHAVIOR
+
+  function selectFeature(feature) {
+    closeDayChecklist();
+    closeSearchItems();
 
     //show selected icon
-    selectedFeatureId = e.features[0].properties.id;
+    selectedFeatureId = feature.properties.id;
     map.setFilter('selectedStop', ['==', ['get', 'id'], selectedFeatureId]);
     selectedStopFilterOut = ['!=', ['get', 'id'], selectedFeatureId];
     updateFilter();
@@ -296,13 +373,13 @@ map.on('load', async () => {
     } //this only adds bottom padding for popup if the popup would cover the selector
     if (map.getZoom() < 14) {
       map.flyTo({
-        center: e.features[0].geometry.coordinates,
+        center: feature.geometry.coordinates,
         zoom: 14,
         padding: { top: 0, bottom: bottomPadding, left: 0, right: 0 }
       });
     } else {
       map.flyTo({
-        center: e.features[0].geometry.coordinates,
+        center: feature.geometry.coordinates,
         curve: 1,
         padding: { top: 0, bottom: bottomPadding, left: 0, right: 0 },
         speed: 0.6
@@ -317,30 +394,30 @@ map.on('load', async () => {
     const HTMLbuttonLink = document.getElementById('info-btn-link');
 
     //fetch geoJSON properties
-    const name = e.features[0].properties.name;
-    const type = e.features[0].properties.type;
-    const start = e.features[0].properties.start;
-    const end = e.features[0].properties.end;
-    let description = e.features[0].properties.description;
-    const note = e.features[0].properties.note;
-    const link = e.features[0].properties.link;
-    const admission = e.features[0].properties.suggestedAdmission;
-    const frequency = e.features[0].properties.dayWeekOrMonth;
+    const name = feature.properties.name;
+    const type = feature.properties.type;
+    const start = feature.properties.start;
+    const end = feature.properties.end;
+    let description = feature.properties.description;
+    const note = feature.properties.note;
+    const link = feature.properties.link;
+    const admission = feature.properties.suggestedAdmission;
+    const frequency = feature.properties.dayWeekOrMonth;
     const weekdaysBox = document.getElementById('weekdays-mobile')
     const daysObj = {
-      sunday: e.features[0].properties.sun,
-      monday: e.features[0].properties.mon,
-      tuesday: e.features[0].properties.tue,
-      wednesday: e.features[0].properties.wed,
-      thursday: e.features[0].properties.thu,
-      friday: e.features[0].properties.fri,
-      saturday: e.features[0].properties.sat
+      sunday: feature.properties.sun,
+      monday: feature.properties.mon,
+      tuesday: feature.properties.tue,
+      wednesday: feature.properties.wed,
+      thursday: feature.properties.thu,
+      friday: feature.properties.fri,
+      saturday: feature.properties.sat
     };
     const programsObj = {
-      culturePass: e.features[0].properties.culturePass,
-      coolCulture: e.features[0].properties.coolCulture,
-      blueStar: e.features[0].properties.blueStar,
-      snapEbt: e.features[0].properties['SNAP/EBT'],
+      culturePass: feature.properties.culturePass,
+      coolCulture: feature.properties.coolCulture,
+      blueStar: feature.properties.blueStar,
+      snapEbt: feature.properties['SNAP/EBT'],
     }
     const iconUrl = 'icons/' + type + '.webp';
 
@@ -437,6 +514,10 @@ map.on('load', async () => {
     popup.style.visibility = 'visible';
     popup.style.bottom = '0px';
 
+  }
+
+  map.on('click', 'places', (e) => {
+    selectFeature(e.features[0]);
   })
 
   //deselect feature behavior
@@ -457,14 +538,17 @@ map.on('load', async () => {
   // close modal when clicking outside feature
   map.on('click', (e) => {
     const features = map.queryRenderedFeatures(e.point, { layers: ['places'] });
-    if (features.length === 0) { deselect() }
+    if (features.length === 0) {
+      deselect();
+      closeSearchItems();
+    }
   });
 
   // or on close button
   const closeBtn = document.getElementById('close-btn');
   closeBtn.addEventListener('click', deselect);
 
-  // menu stuff
+  // MENU ACTIONS
   const menuOpenBtn = document.getElementById('menu-btn');
   const menuCloseBtn = document.getElementById('menu-close-btn');
   const menu = document.getElementById('menu');
@@ -472,6 +556,7 @@ map.on('load', async () => {
 
   function openMenu() {
     deselect();
+    closeSearchItems();
     const dayContainer = document.getElementById('day-checkboxes-container');
     if (dayContainer.style['max-height'] == '80dvh') {
       closeDayChecklist()
@@ -503,7 +588,55 @@ map.on('load', async () => {
   menuCloseBtn.addEventListener('click', closeMenu);
   menuBackdrop.addEventListener('click', closeMenu);
 
-  //everything that needs to change on resized window
+  //SEARCH ACTIONS
+
+  searchInput.addEventListener('input', (e) => {
+    autocompleteList.replaceChildren();
+
+    if (e.target.value != '') {
+      closeDayChecklist();
+      for (const feature of filteredFeaturesSearch) {
+        if (autocompleteList.childElementCount < 10) {
+          if (feature.properties.name.toLowerCase().split(' ').some(word => word.startsWith(e.target.value.toLowerCase()))) {
+            const newItem = document.createElement('li');
+            newItem.textContent = feature.properties.name;
+            newItem.classList.add('autocomplete-item');
+            switch (feature.properties.type) {
+              case "Art": newItem.classList.add('autocomplete-art');
+                break;
+              case "Culture": newItem.classList.add('autocomplete-culture');
+                break;
+              case "Garden": newItem.classList.add('autocomplete-garden');
+                break;
+              case "History": newItem.classList.add('autocomplete-history');
+                break;
+              case "Children": newItem.classList.add('autocomplete-children');
+            };
+            autocompleteList.appendChild(newItem);
+            newItem.addEventListener('click', () => {
+              closeSearchItems();
+              selectFeature(feature);
+            })
+          }
+        }
+      }
+    } else {
+      autocompleteList.replaceChildren();
+    }
+
+    // change search box border
+    let borderRadius = '0'
+    if (autocompleteList.childElementCount > 0) {
+      borderRadius = '0';
+    } else {
+      borderRadius = '20px';
+    }
+    searchInput.style.borderTopRightRadius = borderRadius;
+    searchInput.style.borderTopLeftRadius = borderRadius;
+  }
+  )
+
+  //WINDOW RESIZE ACTIONS
   window.onresize = () => {
     const dayContainer = document.getElementById('day-checkboxes-container');
     if (dayContainer.style['max-height'] != '80dvh') {
@@ -514,4 +647,5 @@ map.on('load', async () => {
       }
     }
   }
+
 })

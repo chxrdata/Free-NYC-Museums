@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Museums of New York City</title>
     <link id="favicon" rel="icon" type="image/svg+xml" href="icons/favicon1.svg">
-    <meta name="description" content="Explore free and pay-what-you-wish museums across New York City, including those free through Culture Pass and Cool Culture.">
+    <meta name="description"
+        content="Explore free and pay-what-you-wish museums across New York City, including those free through Culture Pass and Cool Culture.">
 
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Free Museums of New York City">
@@ -19,175 +21,226 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-<div id="app-container">
-  <div id="map"></div>
-  <div id="header">
-    <div id="top-section">
-        <img src="images/FreeNYCLogo1.svg">
-        <div id="menu-btn">
-            <img src="icons/menu-thin.png">
+    <div id="app-container">
+        <div id="map"></div>
+        <div id="header">
+            <div id="top-section">
+                <img src="images/FreeNYCLogo1.svg">
+                <div id="menu-btn">
+                    <img src="icons/menu-thin.png">
+                </div>
+            </div>
+            <form id="type-checkboxes">
+                <fieldset>
+                    <div id="type-container">
+                        <label>
+                            Art
+                            <input type="checkbox" id="art" name="art" value="Art" checked>
+                        </label>
+                        <label>
+                            Culture
+                            <input type="checkbox" id="culture" name="culture" value="Culture" checked>
+                        </label>
+                        <label>
+                            Garden
+                            <input type="checkbox" id="garden" name="garden" value="Garden" checked>
+                        </label>
+                        <label>
+                            History
+                            <input type="checkbox" id="history" name="history" value="History" checked>
+                        </label>
+                        <label>
+                            Children
+                            <input type="checkbox" id="children" name="children" value="Children" checked>
+                        </label>
+                        <label>
+                            Zoo
+                            <input type="checkbox" id="zoo" name="zoo" value="Zoo" checked>
+                        </label>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div id="day-checkboxes-container">
+            <form id="day-checkboxes">
+                <fieldset>
+                    <div>
+                        <div id="day-btn">
+                            <img id="day-btn-img" src="icons/closeThick.png">
+                        </div>
+                        <label>S
+                            <input type="checkbox" id="sunday" name="sunday" value="sun" checked>
+                            <div id="sunday-menu-slash"></div>
+                        </label>
+                        <label>M
+                            <input type="checkbox" id="monday" name="monday" value="mon" checked>
+                            <div id="monday-menu-slash"></div>
+                        </label>
+                        <label>T
+                            <input type="checkbox" id="tuesday" name="tuesday" value="tue" checked>
+                            <div id="tuesday-menu-slash"></div>
+                        </label>
+                        <label>W
+                            <input type="checkbox" id="wednesday" name="wednesday" value="wed" checked>
+                            <div id="wednesday-menu-slash"></div>
+                        </label>
+                        <label>R
+                            <input type="checkbox" id="thursday" name="thursday" value="thu" checked>
+                            <div id="thursday-menu-slash"></div>
+                        </label>
+                        <label>F
+                            <input type="checkbox" id="friday" name="friday" value="fri" checked>
+                            <div id="friday-menu-slash"></div>
+                        </label>
+                        <label>S
+                            <input type="checkbox" id="saturday" name="saturday" value="sat" checked>
+                            <div id="saturday-menu-slash"></div>
+                        </label>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div id="menu-backdrop"></div>
+        <div id="menu">
+            <div id="menu-header">
+                <span id="menu-close-btn">
+                    <img class="mobile-btn" src="icons/close.png">
+                    <img class="desktop-btn" src="icons/close-desktop.png">
+                </span>
+                <img id="logo" src="images/FreeNYCLogo2.svg">
+            </div>
+            <div id="menu-content">
+                <h1>Settings</h1>
+                <p class="p-form">I am a:</p>
+                <form id="visitor-status-buttons">
+                    <fieldset>
+                        <div>
+                            <label>Visitor
+                                <input type="radio" id="visitor" name="visitor-status" value="visitor" checked>
+                                <span class="radio"></span>
+                            </label><br>
+                            <label>Resident
+                                <input type="radio" id="resident" name="visitor-status" value="resident">
+                                <span class="radio"></span>
+                            </label>
+                        </div>
+                    </fieldset>
+                </form>
+                <p class="p-form">Show museums free through:</p>
+                <form id="program-checkboxes">
+                    <fieldset>
+                        <div>
+                            <label>Culture Pass
+                                <input type="checkbox" id="culturePass" name="culturePass" value="culturePass">
+                                <span class="checkmark"></span>
+                            </label><br>
+                            <label>Cool Culture
+                                <input type="checkbox" id="coolCulture" name="coolCulture" value="coolCulture">
+                                <span class="checkmark"></span>
+                            </label><br>
+                            <label>SNAP/EBT
+                                <input type="checkbox" id="SNAP/EBT" name="SNAP/EBT" value="SNAP/EBT">
+                                <span class="checkmark"></span>
+                            </label><br>
+                            <label>Blue Star
+                                <input type="checkbox" id="blueStar" name="blueStar" value="blueStar">
+                                <span class="checkmark"></span>
+                            </label><br>
+                        </div>
+                    </fieldset>
+                </form>
+                <br><br>
+                <h1>About</h1>
+                <p class="p-small">I started this project for my senior graphic design thesis because I wanted a
+                    resource like this to exist.</p><br>
+                <p class="p-small">Some museums have suggested admission. Please support them if you're able to!</p><br>
+                <p class="p-small">All data is sourced by me, and I do my best to keep it up to date. If anything is
+                    incorrect, please fill out the <a href="https://forms.gle/gG8zkWR93riPMwou5" target="_blank">issue
+                        tracker here</a>. To request a feature, fill out the <a
+                        href="https://forms.gle/6QFqJkEFv36bjAv46" target="_blank">feature request here</a>. For
+                    anything else &#40;or just to talk maps&#41;, <a href="mailto:del@delcro.co">email me!</a></p>
+                <br>
+                <p class="p-tiny">Huge thank you to <a href="https://maplibre.org/" target="_blank">MapLibre</a> and <a
+                        href="https://openfreemap.org/" target="_blank">OpenFreeMap</a> for keeping this project free,
+                    as well as <a href="https://www.nycforfree.co/free-museums" target="_blank">NYC for free</a> for
+                    helping with sourcing.</p>
+            </div>
+        </div>
+        <div id="popup">
+            <div id="weekdays-mobile">
+                <div id="sunday-box">
+                    <div id="sunday-slash"></div><span>S</span>
+                </div>
+                <div id="monday-box">
+                    <div id="monday-slash"></div><span>M</span>
+                </div>
+                <div id="tuesday-box">
+                    <div id="tuesday-slash"></div><span>T</span>
+                </div>
+                <div id="wednesday-box">
+                    <div id="wednesday-slash"></div><span>W</span>
+                </div>
+                <div id="thursday-box">
+                    <div id="thursday-slash"></div><span>R</span>
+                </div>
+                <div id="friday-box">
+                    <div id="friday-slash"></div><span>F</span>
+                </div>
+                <div id="saturday-box">
+                    <div id="saturday-slash"></div><span>S</span>
+                </div>
+            </div>
+            <div id="content">
+                <span>
+                    <span>
+                        <span id="close-btn">
+                            <img src="icons/close.png">
+                        </span>
+                        <h1 id="popup-title">Oh no!</h1>
+                    </span>
+                    <h2 id="popup-subtitle"><img class="icon" src="icons/Culture.webp">Some museum | Free Hours:
+                        XX:00PM-XX:00PM<br>Other info goes here</h2>
+                    <p id="popup-text">You shouldn't be seeing this sentence! If you wouldn't mind, please fill out the
+                        <a href="https://forms.gle/gG8zkWR93riPMwou5" target="_blank">issue tracker here</a>.
+                    </p>
+                </span>
+                <span id="info-btn"><a id="info-btn-link" target="_blank">
+                        <?xml version="1.0" encoding="UTF-8"?><svg id="external-link-icon"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.63 2.63">
+                            <defs>
+                                <style>
+                                    .cls-1 {
+                                        fill: none;
+                                        stroke: #f7f6f5;
+                                        stroke-miterlimit: 10;
+                                        stroke-width: .25px;
+                                    }
+                                </style>
+                            </defs>
+                            <polyline class="cls-1" points="2.3 1.54 2.3 2.54 .09 2.54 .09 .34 1.07 .34" />
+                            <polyline class="cls-1" points="1.44 .09 2.54 .09 2.54 1.19" />
+                            <line class="cls-1" x1="1.09" y1="1.54" x2="2.48" y2=".16" />
+                        </svg>
+                        Tickets / Info
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div id="search-bar">
+            <ul id="autocomplete-list">
+            </ul>
+            <form>
+                <input type="text" id="searchedFeature" name="searchedFeature" placeholder="Search...">
+            </form>
         </div>
     </div>
-    <form id="type-checkboxes">
-        <fieldset>
-            <div id="type-container">
-                <label>
-                    Art
-                    <input type="checkbox" id="art" name="art" value="Art" checked>
-                </label>
-                <label>
-                    Culture
-                    <input type="checkbox" id="culture" name="culture" value="Culture" checked>
-                </label>
-                <label>
-                    Garden
-                    <input type="checkbox" id="garden" name="garden" value="Garden" checked>
-                </label>
-                <label>
-                    History
-                    <input type="checkbox" id="history" name="history" value="History" checked>
-                </label>
-                <label>
-                    Children
-                    <input type="checkbox" id="children" name="children" value="Children" checked>
-                </label>
-                <label>
-                    Zoo
-                    <input type="checkbox" id="zoo" name="zoo" value="Zoo" checked>
-                </label>
-            </div>
-        </fieldset>   
-    </form>
-  </div>
-  <div id="day-checkboxes-container">
-    <form id="day-checkboxes">
-        <fieldset>
-            <div>
-                <div id="day-btn">
-                    <img id="day-btn-img" src="icons/closeThick.png">
-                </div>
-                <label>S
-                    <input type="checkbox" id="sunday" name="sunday" value="sun" checked>
-                    <div id="sunday-menu-slash"></div>
-                </label>
-                <label>M
-                    <input type="checkbox" id="monday" name="monday" value="mon" checked>
-                    <div id="monday-menu-slash"></div>
-                </label>
-                <label>T
-                    <input type="checkbox" id="tuesday" name="tuesday" value="tue" checked>
-                    <div id="tuesday-menu-slash"></div>
-                </label>
-                <label>W
-                    <input type="checkbox" id="wednesday" name="wednesday" value="wed" checked>
-                    <div id="wednesday-menu-slash"></div>
-                </label>
-                <label>R
-                    <input type="checkbox" id="thursday" name="thursday" value="thu" checked>
-                    <div id="thursday-menu-slash"></div>
-                </label>
-                <label>F
-                    <input type="checkbox" id="friday" name="friday" value="fri" checked>
-                    <div id="friday-menu-slash"></div>
-                </label>
-                <label>S
-                    <input type="checkbox" id="saturday" name="saturday" value="sat" checked>
-                    <div id="saturday-menu-slash"></div>
-                </label>
-            </div>
-        </fieldset>   
-    </form>
-  </div>
-  <div id="menu-backdrop"></div>
-  <div id="menu">
-    <div id="menu-header">
-        <span id="menu-close-btn">
-            <img class="mobile-btn" src="icons/close.png">
-            <img class="desktop-btn" src="icons/close-desktop.png">
-        </span>
-        <img id="logo" src="images/FreeNYCLogo2.svg">
-    </div>
-    <div id="menu-content">
-        <h1>Settings</h1>
-        <p class="p-form">I am a:</p>
-        <form id="visitor-status-buttons">
-            <fieldset>
-                <div>
-                    <label>Visitor
-                        <input type="radio" id="visitor" name="visitor-status" value="visitor" checked>
-                        <span class="radio"></span>
-                    </label><br>
-                    <label>Resident
-                        <input type="radio" id="resident" name="visitor-status" value="resident">
-                        <span class="radio"></span>
-                    </label>
-                </div>
-            </fieldset>   
-        </form>
-        <p class="p-form">Show museums free through:</p>
-        <form id="program-checkboxes">
-            <fieldset>
-                <div>
-                    <label>Culture Pass
-                        <input type="checkbox" id="culturePass" name="culturePass" value="culturePass">
-                        <span class="checkmark"></span>
-                    </label><br>
-                    <label>Cool Culture
-                        <input type="checkbox" id="coolCulture" name="coolCulture" value="coolCulture">
-                        <span class="checkmark"></span>
-                    </label><br>
-                    <label>SNAP/EBT
-                         <input type="checkbox" id="SNAP/EBT" name="SNAP/EBT" value="SNAP/EBT">
-                        <span class="checkmark"></span>
-                    </label><br>
-                    <label>Blue Star
-                         <input type="checkbox" id="blueStar" name="blueStar" value="blueStar">
-                         <span class="checkmark"></span>
-                    </label><br>
-                </div>
-            </fieldset>
-        </form>
-        <br><br>
-        <h1>About</h1>
-        <p class="p-small">I started this project for my senior graphic design thesis because I wanted a resource like this to exist.</p><br>
-        <p class="p-small">Some museums have suggested admission. Please support them if you're able to!</p><br>
-        <p class="p-small">All data is sourced by me, and I do my best to keep it up to date. If anything is incorrect, please fill out the <a href="https://forms.gle/gG8zkWR93riPMwou5" target="_blank">issue tracker here</a>. To request a feature, fill out the <a href="https://forms.gle/6QFqJkEFv36bjAv46" target="_blank">feature request here</a>. For anything else &#40;or just to talk maps&#41;, <a href="mailto:del@delcro.co">email me!</a></p>
-        <br>
-        <p class="p-tiny">Huge thank you to <a href="https://maplibre.org/" target="_blank">MapLibre</a> and <a href="https://openfreemap.org/" target="_blank">OpenFreeMap</a> for keeping this project free, as well as <a href="https://www.nycforfree.co/free-museums" target="_blank">NYC for free</a> for helping with sourcing.</p>
-    </div>
-  </div>
-  <div id="popup">
-    <div id="weekdays-mobile">
-        <div id="sunday-box"><div id="sunday-slash"></div><span>S</span></div>
-        <div id="monday-box"><div id="monday-slash"></div><span>M</span></div>
-        <div id="tuesday-box"><div id="tuesday-slash"></div><span>T</span></div>
-        <div id="wednesday-box"><div id="wednesday-slash"></div><span>W</span></div>
-        <div id="thursday-box"><div id="thursday-slash"></div><span>R</span></div>
-        <div id="friday-box"><div id="friday-slash"></div><span>F</span></div>
-        <div id="saturday-box"><div id="saturday-slash"></div><span>S</span></div>
-    </div>
-    <div id="content">
-        <span>
-            <span>
-                <span id="close-btn">
-                    <img src="icons/close.png">
-                </span>
-                <h1 id="popup-title">Oh no!</h1>
-            </span>
-            <h2 id="popup-subtitle"><img class="icon" src="icons/Culture.webp">Some museum | Free Hours: XX:00PM-XX:00PM<br>Other info goes here</h2>
-            <p id="popup-text">You shouldn't be seeing this sentence! If you wouldn't mind, please fill out the <a href="https://forms.gle/gG8zkWR93riPMwou5" target="_blank">issue tracker here</a>.</p>
-        </span>
-        <span id="info-btn"><a id="info-btn-link" target="_blank">
-            <?xml version="1.0" encoding="UTF-8"?><svg id="external-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2.63 2.63"><defs><style>.cls-1{fill:none;stroke:#f7f6f5;stroke-miterlimit:10;stroke-width:.25px;}</style></defs><polyline class="cls-1" points="2.3 1.54 2.3 2.54 .09 2.54 .09 .34 1.07 .34"/><polyline class="cls-1" points="1.44 .09 2.54 .09 2.54 1.19"/><line class="cls-1" x1="1.09" y1="1.54" x2="2.48" y2=".16"/></svg>
-            Tickets / Info
-            </a>
-        </span>
-    </div>
-  </div>
-  <script type="module" src="app.js"></script>
-  </div>
+    <script type="module" src="app.js"></script>
 </body>
+
 </html>
