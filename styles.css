@@ -558,6 +558,7 @@ label .radio:after {
   width: 100dvw;
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
+  display: none;
 }
 
 #searchedFeature {
